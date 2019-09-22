@@ -8,9 +8,7 @@ conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root
 cursor=conn.cursor()
 # Create your views here.
 def index(request):
-<<<<<<< Updated upstream
     return render(request,'index.html')
-<<<<<<< HEAD
 
 def test(request):
     return render(request,'team_member/team_member_index.html')
@@ -18,11 +16,15 @@ def test(request):
 def history(request):
     return render(request, "team_member/team_member_history.html")
 
+
 def edit(request):
     return render(request, "team_member/edit_profile.html")
-=======
-=======
-    return render(request,'layout/index.html')
+
+def team_incharge_index(request):
+    return render(request,'team_incharge/team_incharge_index.html')
+
+def rating(request):
+    return render(request, "team_incharge/team_incharge_rating.html")
 
 def render_login(request):
     return render(request,'login.html')
@@ -117,5 +119,3 @@ def check_if_submitted(request):
     #print(final_rating)
 #print(rating)
     return HttpResponse("In the function")
->>>>>>> Stashed changes
->>>>>>> master

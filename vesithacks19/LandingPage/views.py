@@ -35,6 +35,12 @@ def team_incharge_index(request):
 def rating(request):
     return render(request, "team_incharge/team_incharge_rating.html")
 
+def admin_index(request):
+    return render(request,'admin/admin_index.html')
+
+def admin_rating(request):
+    return render(request, "admin/admin_rating.html")
+
 def render_login(request):
     return render(request,'login.html')
 

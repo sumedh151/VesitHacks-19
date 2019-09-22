@@ -83,8 +83,8 @@ DATABASES = {
         'HOST': 'localhost',
         #'USER': 'harshita',
         'USER': 'root',
-        # 'PASSWORD': 'sumedhdg15',
-        'PASSWORD': 'root',
+        'PASSWORD': 'sumedhdg15',
+        # 'PASSWORD': 'root',
         # 'PASSWORD': '',
         # 'PASSWORD': 'root',
 

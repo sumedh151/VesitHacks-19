@@ -1,0 +1,41 @@
+{% extends 'admin/layout/header.html' %}
+{% block admin %}
+{% include 'admin/admin_rating.html'%}
+<div class="content" id="report">
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Report</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                Name
+              </th>
+              <th>
+                Submission Status
+              </th>
+              <th>
+                Ranking
+              </th>
+            </thead>
+            <tbody>
+            {% for i in tasks %}
+              <tr>
+                <td>name</td>
+                <td>submission status</td>
+                <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <!-- <button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

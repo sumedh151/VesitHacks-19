@@ -6,7 +6,14 @@ from django.conf.urls import url
 
 urlpatterns=[
     path('',views.index,name='index'),
+<<<<<<< Updated upstream
     url(r'^test/$', views.test, name="test"),
     url(r'^history/$', views.history, name="history"),
     url(r'^edit/$', views.edit, name="edit"),
+=======
+    path('login',views.render_login,name="view_login"),
+    path('login_check',views.login,name='login'),
+    path('log_out',views.log_out,name='logout'),
+    path('submit',views.check_if_submitted,name="check_if_submitted")
+>>>>>>> Stashed changes
 ]

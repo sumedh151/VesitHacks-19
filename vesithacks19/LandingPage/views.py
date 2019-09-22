@@ -4,9 +4,19 @@ from django.contrib.auth import logout
 import mysql.connector
 from django.db import connection
 import json
-
+<<<<<<< HEAD
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
+=======
+
+<<<<<<< HEAD
+conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
+cursor=conn.cursor()
+=======
+# conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
+# cursor=conn.cursor()
+>>>>>>> master
+>>>>>>> master
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -25,6 +35,12 @@ def edit(request):
 def team_incharge_index(request):
     return render(request,'team_incharge/team_incharge_index.html')
 
+def team_incharge_dabba(request):
+    return render(request,'team_incharge/dabba.html')
+
+def team_incharge_index(request):
+    return render(request,'team_incharge/team_incharge_index.html')
+
 def rating(request):
     return render(request, "team_incharge/team_incharge_rating.html")
 
@@ -34,6 +50,8 @@ def render_login(request):
 def login(request):
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
+    #print(str(request.session.items()))
+    result=dict()
     if len(res)==0:
         return render(request,'login.html',{"error" : "You are not part of the registery of the domain"})
     else:
@@ -55,8 +73,19 @@ def login(request):
                     t["team_name"]=team_details[0][0]
                 roles[i]=t
             request.session["roles"]=roles
-            return HttpResponse(str(request.session.items()))
-            return render(request,'login.html',{"error": ''})
+            request.session["error"]=""
+            # return HttpResponse(str(request.session.items()))
+            #return HttpResponse(str(request.session['email']))
+            #print(request.session.items())
+            #data = {
+                #'email' : request.session['email']
+            #}
+            data=dict()
+            for i in range(len(request.session["roles"])):
+                data[i]=request.session["roles"][i]
+            print(data)
+            print(type(data))
+            return render(request,'team_member/dabba.html',{"data": data})
         elif res[0][2]=="0":
             return render(request,'team_member/dabba.html')
     with connection.cursor() as cursor:        
@@ -88,7 +117,6 @@ def login(request):
             elif res[0][2]=="0":
                 return render(request,'dashboard.html')
                 
-    
 def log_out(request):
     logout(request)
     return HttpResponseRedirect('/login')
@@ -150,6 +178,22 @@ def check_if_submitted(request):
 #print(rating)
     return HttpResponse("In the function")
 
+
+def add_user(request):
+    x=dict()
+    x[request.session["current_team"]]=[1,'team member']
+    res=cursor.execute("Select email from user where email='{}'".format(request.session["email"]))
+    res=cursor.fetchall()
+    if len(res)>0:
+        return HttpResponseRedirect({"Error ": "This member already exists in the organization ","Success": ""})
+    else : 
+        res=cursor.execute("Insert into user(name,email,dob,t_id) values('{}','{}','{}','{}')".format(request.GET["name"],request.GET["email"],request.GET["dob"],x))
+        res=cursor.execute("select ssn,t_id from user  where email='{}'".format(request.GET["email"]))
+        print(res)
+        return HttpResponseRedirect({"success":"","error":""})
+=======
+<<<<<<< HEAD
+
 def team_member_dashboard_render(request):
     ssn = 1
     team_id = 1
@@ -162,6 +206,7 @@ def team_member_dashboard_render(request):
 
     i = 0
     
+<<<<<<< HEAD
     for x in result:
         deadlines = list(eval(x[2]).items())
         d=list()
@@ -183,3 +228,9 @@ def team_member_dashboard_render(request):
 
     
     return render(request,'team_member/team_member_index.html',context)
+=======
+    return render(request,'team_member/team_member_index.html')
+=======
+>>>>>>> master
+>>>>>>> master
+>>>>>>> master

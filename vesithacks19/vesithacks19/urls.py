@@ -19,8 +19,9 @@ from django.urls import include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('/',include('social_django.urls',namespace='social')),
+    path('',include('LandingPage.urls')),
     path('admin/', admin.site.urls),
+    path('',include('social_django.urls',namespace='social')),
 ]
 
 urlpatterns+=staticfiles_urlpatterns()

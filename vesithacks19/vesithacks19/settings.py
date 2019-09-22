@@ -84,7 +84,7 @@ DATABASES = {
         #'USER': 'harshita',
         'USER': 'root',
         # 'PASSWORD': 'sumedhdg15',
-        'PASSWORD': 'root',
+        'PASSWORD': '',
         'PORT': '',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 

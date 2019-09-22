@@ -33,11 +33,8 @@ def render_login(request):
     return render(request,'login.html')
 
 def login(request):
-<<<<<<< Updated upstream
-=======
     global cursor
     
->>>>>>> Stashed changes
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     
@@ -117,7 +114,6 @@ def login(request):
                 return render(request,'login.html',{"error": ''})
             elif res[0][2]=="0":
                 return render(request,'dashboard.html')
->>>>>>> master
                 
 def log_out(request):
     logout(request)
@@ -252,7 +248,9 @@ def team_member_dashboard_render(request):
         pass
     
     return render(request,'team_member/team_member_index.html')
-
+def team_member_history(parameter_list):
+    return render(request, "team_member/team_member_history.html")
+    
 def team_incharge_index(request):
     return HttpResponse()
 

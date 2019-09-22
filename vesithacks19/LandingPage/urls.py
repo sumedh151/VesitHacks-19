@@ -6,6 +6,7 @@ from django.conf.urls import url
 
 urlpatterns=[
     path('',views.index,name='index'),
+<<<<<<< Updated upstream
 
     url(r'^test/$', views.test, name="test"),
     url(r'^history/$', views.history, name="history"),
@@ -18,4 +19,12 @@ urlpatterns=[
 
 	url(r'^team_incharge_index/$', views.team_incharge_index, name="team_incharge_index"),
 	url(r'^rating/$', views.rating, name="rating"),
+=======
+    #url(r'^test/$', views.test, name="test"),
+    #url(r'^history/$', views.history, name="history"),
+    #url(r'^edit/$', views.edit, name="edit"),
+    path('login_check',views.login,name="login_check"),
+    #path('team_member/dabba',views.render_dabba,name="render_dabba"),
+    path('add_user',views.add_user,name="add_user")
+>>>>>>> Stashed changes
 ]

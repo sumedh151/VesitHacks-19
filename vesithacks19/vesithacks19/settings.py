@@ -79,7 +79,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ratingSystem',
         'USER': 'root',
-        'PASSWORD': '',
+        # 'PASSWORD': 'sumedhdg15',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {

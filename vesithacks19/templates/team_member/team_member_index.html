@@ -1,7 +1,10 @@
 {% extends 'team_member/layout/header.html' %}
 {% block team_member %}
-<div class="row"> {{data.0.task_id}}
-        <div class="col-md-12">
+<div class="row">
+      {% if len == 0%}
+        No due Submissions
+      {% else %}
+      <div class="col-md-12">
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">Upcoming Submissions</h4>
@@ -27,14 +30,21 @@
                     </th> -->
                   </thead>
                   <tbody>
-                  {% for i in data %}
-                    {% for x in i.dealine %}
-                      <tr>
-                        <td>{{data.i.task_id}}</td>
-                        <td>{{data.0.deadline}}</td>
-                        <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
-                      </tr>
+                  {% for i,j in data.items %}
+                    {% for x in j.deadline%}
+                      {% for y,z in x.items %}
+                        {% if z == 0 %}
+                        <tr>
+                          <td>{{j.task_id}}</td>
+                          <td>{{y}}</td>
+                          <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
+                        </tr>
+                      {% endif %}
+                      {% endfor %}
+                    
                     {% endfor %}
+                    {% empty %}
+                    <h5 class="card-title">No Upcoming Submissions</h5>
                   {% endfor %}
                   </tbody>
                 </table>
@@ -44,4 +54,6 @@
           </div>
         </div>
       </div>
+      {% endif %}
+        
 {% endblock %}

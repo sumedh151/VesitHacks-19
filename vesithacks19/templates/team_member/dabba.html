@@ -8,9 +8,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<title>Document</title>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <title>Document</title>
+  <script>
+  
+</script>
 </head>
 <body>
+  {% if success == "" %}
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+  {% elif error == ""  %}
+    <div class="alert alert-success" role="alert">{{success}}</div>
+  {% endif %}
     <div class="content">
         <div class="row">
           {% for k,v in data.items %}
@@ -38,13 +47,6 @@
                   <hr>
                 </div> -->
               </div>
-<<<<<<< Updated upstream
-              <div class="col-7 col-md-8">
-                <div class="numbers">
-                  <p class="card-category">Team Name</p>
-                  <p class="card-title">{{request.sessions['team_name']}}</p> 
-                </div>
-=======
             </div>
             {% endfor %}
         </div>
@@ -64,66 +66,32 @@
                 </button>
               </div>
               <div class="modal-body">
-                  <form>
+                  <form action="/add_user" method="POST">
+                    {% csrf_token %}
                       <div class="form-group">
                         <label for="exampleFormControlInput1">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                        <input type="email" class="form-control" id="exampleFormControlInput1" name="email" placeholder="name@example.com">
                       </div>
                       
                       <div class="form-group">
                           <label for="exampleFormControlInput1">Name</label>
-                          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ayeshahahahaha">
+                          <input type="text" class="form-control" id="exampleFormControlInput1" name="name" placeholder="Ayeshahahahaha">
                         </div>
                       <div class="form-group">
                         <label for="dob">Date of Birth</label>
-                        <div class="input-append date form_datetime">
-                            <input size="16" type="text" value="" name="dob"readonly>
-                            <span class="add-on"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                        <div class="input-group date" id="datetimepicker1">
+                            <input size="16" type="date" value="" name="dob" class="form-control">\
                         </div>
-                         
-                        <script type="text/javascript">
-                            $(".form_datetime").datetimepicker({
-                                format: "dd MM yyyy - hh:ii"
-                            });
-                        </script>            
                       </div>
-                      <div class="form-group">
-                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                        <select multiple class="form-control" id="exampleFormControlSelect2">
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Example textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                      </div>
-                    </form>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
->>>>>>> Stashed changes
+                <button type="submit" class="btn btn-primary">Add User</button>
               </div>
+            </form>
             </div>
           </div>
         </div>
-<<<<<<< Updated upstream
-      </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-refresh"></i>request.sessions['roles']['designation'] 
-        </div>
-      </div>
-      {% endfor %}
-  </div>
-</div>
-=======
 </body>
 </html>
->>>>>>> Stashed changes
       

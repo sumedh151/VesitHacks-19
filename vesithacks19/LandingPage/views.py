@@ -8,7 +8,6 @@ cursor=conn.cursor()
 # Create your views here.
 def index(request):
     return render(request,'index.html')
-<<<<<<< Updated upstream
 
 def test(request):
     return render(request,'team_member/team_member_index.html')
@@ -25,9 +24,6 @@ def team_incharge_index(request):
 
 def rating(request):
     return render(request, "team_incharge/team_incharge_rating.html")
-=======
-    return render(request,'layout/index.html')
->>>>>>> Stashed changes
 
 def render_login(request):
     return render(request,'login.html')
@@ -134,9 +130,17 @@ def check_if_submitted(request):
     #print(final_rating)
 #print(rating)
     return HttpResponse("In the function")
-<<<<<<< Updated upstream
-=======
+
 
 def add_user(request):
-    return HttpResponse("Hi")
->>>>>>> Stashed changes
+    x=dict()
+    x[request.session["current_team"]]=[1,'team member']
+    res=cursor.execute("Select email from user where email='{}'".format(request.session["email"]))
+    res=cursor.fetchall()
+    if len(res)>0:
+        return HttpResponseRedirect({"Error ": "This member already exists in the organization ","Success": ""})
+    else : 
+        res=cursor.execute("Insert into user(name,email,dob,t_id) values('{}','{}','{}','{}')".format(request.GET["name"],request.GET["email"],request.GET["dob"],x))
+        res=cursor.execute("select ssn,t_id from user  where email='{}'".format(request.GET["email"]))
+        print(res)
+        return HttpResponseRedirect({"success":"","error":""})

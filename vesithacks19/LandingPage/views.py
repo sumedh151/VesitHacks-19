@@ -4,3 +4,6 @@ from django.shortcuts import HttpResponse
 # Create your views here.
 def index(request):
     return render(request,'layout/index.html')
+
+def test(request):
+    return render(request,'team_member/layout/header.html')

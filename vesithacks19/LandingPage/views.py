@@ -50,7 +50,7 @@ def login(request):
             return HttpResponse(str(request.session.items()))
             return render(request,'login.html',{"error": ''})
         elif res[0][2]=="0":
-            return render(request,'dashboard.html')
+            return render(request,'team_member/dabba.html')
                 
     
 def log_out(request):
@@ -114,3 +114,20 @@ def check_if_submitted(request):
 #print(rating)
     return HttpResponse("In the function")
 
+def team_member_dashboard_render(request):
+    ssn = 1
+    team_id = 1
+
+    cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(team_id,ssn))
+    result = cursor.fetchall()
+    l = list(range(0,len(result)))
+    data = dict().fromkeys(l,{})
+    #print(result)
+    for i in l:
+        for x in result:
+            deadlines = eval(x[2])
+            data[i] = {"task_id" : x[0], "deadline" : deadlines}
+            #print(x)
+    print(data)
+    
+    return render(request,'team_member/team_member_index.html')

@@ -1,3 +1,6 @@
+{% extends 'team_incharge/layout/dabba_header.html' %}
+{% block team_incharge_dabba %}
+<div class="main-panel">
 <div class="content">
   <div class="row">
     {% for dabba in dabbas %}
@@ -13,7 +16,7 @@
               <div class="col-7 col-md-8">
                 <div class="numbers">
                   <p class="card-category">Team Name</p>
-                  <p class="card-title">{{request.sessions['team_name']}}</p> 
+                   
                 </div>
               </div>
             </div>
@@ -31,5 +34,8 @@
       </div>
       {% endfor %}
   </div>
+  heya
 </div>
-      
+
+</div>
+{% endblock %}

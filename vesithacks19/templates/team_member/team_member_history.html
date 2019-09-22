@@ -4,9 +4,13 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title"> {{Name}}'s History</h4>
+              <h4 class="card-title"> {{request.session.team_member_details.details.name}}'s History</h4>
             </div>
             <div class="card-body">
+              {% if request.session.team_member_details_len == 0 %}
+              <h6 class="card-title"> No History Available</h6>
+              {% else %}
+
               <div class="table-responsive">
                 <table class="table">
                   <thead class=" text-primary">
@@ -19,19 +23,27 @@
                     <th>
                       Status
                     </th>
-                    <th>
-                      Submitted At
-                    </th>
+                    <!-- <th>
+                      &nbsp;
+                    </th> -->
                   </thead>
                   <tbody>
-                  {% for i in tasks %}
-                    <tr>
-                      <td>task</td>
-                      <td>deadline</td>
-                      <td>submit</td>
-                      <td>submit</td>
-                      <td>submit</td>
-                    </tr>
+                  {% for i,j in request.session.team_member_details.data.items %}
+                    {% for x in j.deadline %}
+                      {% for y,z in x.items %}
+                        <tr>
+                          <td>{{j.task_id}}</td>
+                          <td>{{y}}</td>
+                          {% if z == 0 %}
+                          <td>Not Submitted</td>
+                          <!-- <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td> -->
+                          {% else %}
+                          <td>Submitted</td>
+                          <!-- <td></td> -->
+                          {% endif %}
+                        </tr>
+                      {% endfor %}
+                    {% endfor %}
                   {% endfor %}
                   </tbody>
                 </table>
@@ -40,4 +52,5 @@
           </div>
         </div>
       </div>
+      {% endif %}
 {% endblock %}

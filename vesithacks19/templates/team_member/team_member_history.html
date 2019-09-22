@@ -1,0 +1,43 @@
+{% extends 'team_member/layout/header.html' %}
+{% block team_member %}
+<div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title"> {{Name}}'s History</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class=" text-primary">
+                    <th>
+                      Task
+                    </th>
+                    <th>
+                      Deadline
+                    </th>
+                    <th>
+                      Status
+                    </th>
+                    <th>
+                      Submitted At
+                    </th>
+                  </thead>
+                  <tbody>
+                  {% for i in tasks %}
+                    <tr>
+                      <td>task</td>
+                      <td>deadline</td>
+                      <td>submit</td>
+                      <td>submit</td>
+                      <td>submit</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}

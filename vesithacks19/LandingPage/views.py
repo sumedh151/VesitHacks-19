@@ -247,8 +247,9 @@ def team_member_dashboard_render(request):
     except Exception as identifier:
         pass
     
-    return render(request,'team_member/team_member_index.html')
-def team_member_history(parameter_list):
+    return render(request,'team_member/team_member_index.html', context)
+
+def team_member_history(request):
     return render(request, "team_member/team_member_history.html")
 
 def team_incharge_index(request):

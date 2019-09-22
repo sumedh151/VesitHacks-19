@@ -23,7 +23,6 @@ urlpatterns=[
     path('login_check',views.login,name='login'),
     path('log_out',views.log_out,name='logout'),
     path('submit',views.check_if_submitted,name="check_if_submitted"),
-    
 	url(r'^team_incharge_index/$', views.team_incharge_index, name="team_incharge_index"),
 	url(r'^rating/$', views.rating, name="rating"),
     #url(r'^test/$', views.test, name="test"),

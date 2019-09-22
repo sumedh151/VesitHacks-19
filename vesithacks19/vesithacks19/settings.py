@@ -61,6 +61,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.core.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -78,15 +79,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ratingSystem',
+        'HOST': 'localhost',
+        #'USER': 'harshita',
         'USER': 'root',
         # 'PASSWORD': 'sumedhdg15',
-        # 'PASSWORD': 'root',
-        # 'PASSWORD': 'harshita@99',
-
-        #'PASSWORD': 'harshita@99',
-        # 'PASSWORD': 'sumedhdg15',
         'PASSWORD': 'root',
-        'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 

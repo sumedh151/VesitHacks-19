@@ -17,5 +17,7 @@ urlpatterns=[
     path('submit',views.check_if_submitted,name="check_if_submitted"),
     
     path('team_incharge_index', views.team_incharge_index, name="team_incharge_index"),
+    path('team_incharge_dabba', views.team_incharge_dabba, name="team_incharge_dabba"),
     # path('rating', views.rating, name="rating"),
+
 ]

@@ -24,6 +24,12 @@ def edit(request):
 def team_incharge_index(request):
     return render(request,'team_incharge/team_incharge_index.html')
 
+def team_incharge_dabba(request):
+    return render(request,'team_incharge/dabba.html')
+
+def team_incharge_index(request):
+    return render(request,'team_incharge/team_incharge_index.html')
+
 def rating(request):
     return render(request, "team_incharge/team_incharge_rating.html")
 

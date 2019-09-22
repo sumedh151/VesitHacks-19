@@ -61,6 +61,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                #'django.core.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -95,10 +96,14 @@ DATABASES = {
         #'PASSWORD': 'harshita@99',
         # 'PASSWORD': 'sumedhdg15',
 <<<<<<< HEAD
+        'PASSWORD': '',
+=======
+<<<<<<< HEAD
         #'PASSWORD': 'root',
         #'HOST': 'localhost',
 =======
         # 'PASSWORD': 'root',
+>>>>>>> master
         'HOST': 'localhost',
 >>>>>>> master
         'PORT': '',

@@ -1,18 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import *
 from django.contrib.auth import logout
-# import mysql.connector
+import mysql.connector
 from django.db import connection
 import json
-<<<<<<< HEAD
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
 # cursor=conn.cursor()master
-=======
 # conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 # cursor=conn.cursor()
->>>>>>> master
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -46,11 +43,8 @@ def render_login(request):
     return render(request,'login.html')
 
 def login(request):
-<<<<<<< HEAD
     global cursor
-=======
 
->>>>>>> master
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     #print(str(request.session.items()))
@@ -60,6 +54,7 @@ def login(request):
     else:
         request.session["email"]= request.user.email
         request.session["ssn"]=res[0][0]
+        request.session["id"] = res[0][0]
         if len(res[0][2])>1:
             result=eval(res[0][2])
             x=list(result.keys())
@@ -179,7 +174,7 @@ def check_if_submitted(request):
         }
         a+=1
     #print(final_rating)
-#print(rating)
+    #print(rating)
     return HttpResponse("In the function")
 
 
@@ -197,11 +192,11 @@ def add_user(request):
         return HttpResponseRedirect({"success":"","error":""})
 
 def team_member_dashboard_render(request):
+    
     ssn = 1
     team_id = 1
-<<<<<<< HEAD
     email = "2017.harshita.singh@ves.ac.in"
-    
+    print(request.session)
     cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(ssn))
     result = cursor.fetchone()
     #print(eval(result[1])[team_id][1])
@@ -210,13 +205,10 @@ def team_member_dashboard_render(request):
         "designation" : eval(result[1])[team_id][1]
     }
     
-=======
->>>>>>> master
 
     cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(team_id,ssn))
     result = cursor.fetchall()
     l = list(range(0,len(result)))
-<<<<<<< HEAD
     data = dict()
 
     i = 0
@@ -236,20 +228,12 @@ def team_member_dashboard_render(request):
     context["data"] = data
     context["details"] = details
     context["len"] = i
-        #print(x)
-        #print(data)
-        #print(request.session["email"])
-    #print(context)
-    return render(request,'team_member/team_member_index.html',context)
-=======
-    data = dict().fromkeys(l,{})
-    #print(result)
-    for i in l:
-        for x in result:
-            deadlines = eval(x[2])
-            data[i] = {"task_id" : x[0], "deadline" : deadlines}
-            #print(x)
-    print(data)
+    try:
+        request.session["team_member_details"] = context
+    except Exception as identifier:
+        pass
     
-    return render(request,'team_member/team_member_index.html')
->>>>>>> master
+    return render(request,'team_member/team_member_index.html',context)
+    
+def team_member_history(request):
+    return render(request,'team_member/team_member_history.html')

@@ -12,13 +12,6 @@ cursor=conn.cursor()
 def index(request):
     return render(request,'index.html')
 
-def test(request):
-    return render(request,'team_member/team_member_index.html')
-
-def history(request):
-    return render(request, "team_member/team_member_history.html")
-
-
 def edit(request):
     return render(request, "team_member/edit_profile.html")
     
@@ -34,31 +27,46 @@ def render_login(request):
     return render(request,'login.html')
 
 def login(request):
+<<<<<<< Updated upstream
+=======
+    global cursor
+    
+>>>>>>> Stashed changes
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
+    
     #print(str(request.session.items()))
     result=dict()
     if len(res)==0:
         return render(request,'login.html',{"error" : "You are not part of the registery of the domain"})
+    
     else:
         request.session["email"]= request.user.email
         request.session["ssn"]=res[0][0]
         request.session["id"] = res[0][0]
+        
         if len(res[0][2])>1:
             result=eval(res[0][2])
+            #print(result)
             x=list(result.keys())
-            print(x)
+            #print(x)
             roles=dict()
-            for i in range(len(x)):
+            i = 0
+                
+            for k,v in result.items():
                 t=dict()
-                for k,v in result.items():
-                    t["role"]=v[0]
-                    t["designation"]=v[1]
-                    t["team_id"]=k
-                    team_details=cursor.execute("select team_name from team where t_id = {}".format(x[i]))
-                    team_details=cursor.fetchall()
-                    t["team_name"]=team_details[0][0]
+                t["role"]=v[0]
+                t["designation"]=v[1]
+                t["team_id"]=k
+                #print(k)
+                team_details=cursor.execute("select team_name from team where t_id = {}".format(x[i]))
+                team_details=cursor.fetchall()
+                t["team_name"]=team_details[0][0]
+                #print(t)
                 roles[i]=t
+                i+=1
+            #print(roles)
+
             request.session["roles"]=roles
             request.session["error"]=""
             # return HttpResponse(str(request.session.items()))
@@ -71,7 +79,7 @@ def login(request):
             for i in range(len(request.session["roles"])):
                 data[i]=request.session["roles"][i]
             print(data)
-            print(type(data))
+            #print(type(data))
             return render(request,'team_member/dabba.html',{"data": data})
         elif res[0][2]=="0":
             return render(request,'team_member/dabba.html')

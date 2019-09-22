@@ -1,0 +1,27 @@
+{% load static %}
+<html>
+	<head>
+
+		<meta name="csrf-token" content="{{ csrf_token() }}" />
+		<script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+    		});
+        </script>
+
+	</head>
+	<body>
+		<input placeholder="Team Name" id="team_name" name="team_name" />
+		<button onclick="">Add Team</button>
+		<script>
+			function addTeam(ssn){
+				var team_name = document.getElementById('team_name').value;
+				var ssn = ssn
+				$.ajax('/maketeam/',{team_name:team_name})
+			}
+		</script>
+	</body>
+</html>

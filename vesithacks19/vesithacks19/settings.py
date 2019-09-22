@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'ratingSystem',
         'USER': 'root',
         # 'PASSWORD': 'sumedhdg15',
-        #'PASSWORD': 'root',
+        'PASSWORD': 'root',
         #'PASSWORD': 'harshita@99',
         'HOST': 'localhost',
         'PORT': '',

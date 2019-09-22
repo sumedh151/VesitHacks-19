@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
+    path('',include('social_django.urls',namespace='social')),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns+=staticfiles_urlpatterns()

@@ -121,7 +121,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS=(
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR,'static'),
 )
 
 AUTHENTICATION_BACKENDS=(
@@ -132,8 +132,8 @@ AUTHENTICATION_BACKENDS=(
 
 SITE_ID=1
 SOCIAL_AUTH_URL_NAMESPACE='social'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='209044420267-7h8iuela48kmv1pddjdv9gt8srpbontf.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET='UuhyDkQNIddlLzOZM1Nb-Lf5'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='517781533942-7k02oetvdgm7499hhspp3g6bj6joupk9.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET='gCxksmM6r3bJzepJVzafUwfP'
 
 LOGIN_URL='/login/google-oauth2/'
 

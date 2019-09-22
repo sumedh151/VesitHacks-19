@@ -19,7 +19,7 @@ from django.urls import include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('',include('social_django.urls',namespace='social')),
+    path('/',include('social_django.urls',namespace='social')),
     path('admin/', admin.site.urls),
 ]
 

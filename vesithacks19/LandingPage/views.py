@@ -83,7 +83,7 @@ def login(request):
                 data[i]=request.session["roles"][i]
             print(data)
             #print(type(data))
-            return render(request,'team_member/dabba.html',{"data": data})
+            return render(request,'team_incharge/dabba.html',{"data": data})
         elif res[0][2]=="0":
             return render(request,'team_member/dabba.html')
     with connection.cursor() as cursor:        
@@ -250,9 +250,9 @@ def team_member_dashboard_render(request):
     return render(request,'team_member/team_member_index.html')
 def team_member_history(parameter_list):
     return render(request, "team_member/team_member_history.html")
-    
+
 def team_incharge_index(request):
-    return HttpResponse()
+    return render(request, "team_incharge/team_incharge_index.html")
 
 def rating(request):
     return HttpResponse()

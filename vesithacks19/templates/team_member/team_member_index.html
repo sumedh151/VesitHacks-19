@@ -1,6 +1,6 @@
 {% extends 'team_member/layout/header.html' %}
 {% block team_member %}
-<div class="row">
+<div class="row"> {{data.0.task_id}}
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
@@ -27,12 +27,14 @@
                     </th> -->
                   </thead>
                   <tbody>
-                  {% for i in tasks %}
-                    <tr>
-                      <td>task</td>
-                      <td>deadline</td>
-                      <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
-                    </tr>
+                  {% for i in data %}
+                    {% for x in i.dealine %}
+                      <tr>
+                        <td>{{data.i.task_id}}</td>
+                        <td>{{data.0.deadline}}</td>
+                        <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
+                      </tr>
+                    {% endfor %}
                   {% endfor %}
                   </tbody>
                 </table>

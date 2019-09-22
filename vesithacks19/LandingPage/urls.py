@@ -13,7 +13,10 @@ urlpatterns=[
     path('login_check',views.login,name='login'),
     path('log_out',views.log_out,name='logout'),
     path('submit',views.check_if_submitted,name="check_if_submitted"),
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 
     url(r'^test/$', views.test, name="test"),
     url(r'^history/$', views.history, name="history"),

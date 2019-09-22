@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import *
 from django.contrib.auth import logout
-import mysql.connector
+# import mysql.connector
+from django.db import connection
 import json
 
-conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
-cursor=conn.cursor()
+# conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
+# cursor=conn.cursor()
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -16,14 +17,25 @@ def test(request):
 def history(request):
     return render(request, "team_member/team_member_history.html")
 
+
 def edit(request):
     return render(request, "team_member/edit_profile.html")
+<<<<<<< HEAD
     #return render(request,'layout/index.html')
+=======
+
+def team_incharge_index(request):
+    return render(request,'team_incharge/team_incharge_index.html')
+
+def rating(request):
+    return render(request, "team_incharge/team_incharge_rating.html")
+>>>>>>> master
 
 def render_login(request):
     return render(request,'login.html')
 
 def login(request):
+<<<<<<< HEAD
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     if len(res)==0:
@@ -51,6 +63,36 @@ def login(request):
             return render(request,'login.html',{"error": ''})
         elif res[0][2]=="0":
             return render(request,'team_member/dabba.html')
+=======
+    with connection.cursor() as cursor:        
+        res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
+        res=cursor.fetchall()
+        if len(res)==0:
+            return render(request,'login.html',{"error" : "You are not part of the registery of the domain"})
+        else:
+            request.session["email"]= request.user.email
+            request.session["ssn"]=res[0][0]
+            if len(res[0][2])>1:
+                result=eval(res[0][2])
+                x=list(result.keys())
+                print(x)
+                roles=dict()
+                for i in range(len(x)):
+                    t=dict()
+                    for k,v in result.items():
+                        t["role"]=v[0]
+                        t["designation"]=v[1]
+                        t["team_id"]=k
+                        team_details=cursor.execute("select team_name from team where t_id = {}".format(x[i]))
+                        team_details=cursor.fetchall()
+                        t["team_name"]=team_details[0][0]
+                    roles[i]=t
+                request.session["roles"]=roles
+                return HttpResponse(str(request.session.items()))
+                return render(request,'login.html',{"error": ''})
+            elif res[0][2]=="0":
+                return render(request,'dashboard.html')
+>>>>>>> master
                 
     
 def log_out(request):
@@ -113,6 +155,7 @@ def check_if_submitted(request):
     #print(final_rating)
 #print(rating)
     return HttpResponse("In the function")
+<<<<<<< HEAD
 
 def team_member_dashboard_render(request):
     ssn = 1
@@ -131,3 +174,5 @@ def team_member_dashboard_render(request):
     print(data)
     
     return render(request,'team_member/team_member_index.html')
+=======
+>>>>>>> master

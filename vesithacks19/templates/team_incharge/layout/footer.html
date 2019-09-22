@@ -37,6 +37,78 @@
       demo.initChartsPages();
     });
   </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="{% static 'assets/js/jquery.star-rating-svg.js'%}"></script>
+  <script type="text/javascript">
+    $(".my-rating-6").starRating({
+      totalStars: 5,
+      emptyColor: 'pink',
+      hoverColor: 'yellow',
+      activeColor: 'cornflowerblue',
+      initialRating: 0,
+      strokeWidth: 0,
+      useGradient: false,
+      minRating: 1,
+      // callback: function(currentRating, $el){
+      //     alert('rated ', currentRating);
+      //     console.log('DOM element ', $el);
+      // }
+    });
+
+  </script>
+  <script type="text/javascript">
+    // var header = document.getElementById("sumedh");
+    // var lis = document.getElementsByTagName("li");
+    // for (var i = 0; i < lis.length; i++) {
+    //   lis[i].addEventListener("click", function() {
+    //   var current = document.getElementsByClassName("active");
+    //   current[0].className = current[0].className.replace(" active", "");
+    //   this.className += " active";
+    //   });
+    // }
+
+    $(document).ready(function () {
+    $('.nav li a').click(function(e) {
+        //console.log("hello")
+        $('.nav li.active').removeClass('active');
+        var $parent = $(this).parent();
+        $parent.addClass('active');
+        e.preventDefault();
+        var name = $(this).attr("id");
+        console.log(name);
+        console.log($(this));
+       // Activate the right nav-link
+        //var id = $(".content h1").attr("id");
+        var id = $(this).attr("id");
+        var page = $(".content").attr("id");
+        if (id == "report"){
+          if (page == "report"){
+
+            $parent.addClass("active");
+          }
+        }
+        if (id == "rating"){
+          if (page == "rating"){
+
+            $parent.addClass("active");
+          }
+        }
+        // if(id == "notifications"){
+        //     if(name == "notifications_nav"){
+        //         $('.nav li.active').removeClass('active');
+        //         $parent.addClass('active');        
+        //     }
+        // }
+    });
+    // temporary handling of nav
+    // var id = $(".content h1").attr("id");
+    // if(id == "notifications"){
+    //     $('.nav li.active').removeClass('active');
+    //     $("#notifications_nav").parent().addClass("active");
+    // }
+});
+
+  </script>
 </body>
 
 </html>

@@ -10,3 +10,6 @@ def test(request):
 
 def history(request):
     return render(request, "team_member/team_member_history.html")
+
+def edit(request):
+    return render(request, "team_member/edit_profile.html")

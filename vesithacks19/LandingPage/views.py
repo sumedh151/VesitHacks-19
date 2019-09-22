@@ -4,19 +4,10 @@ from django.contrib.auth import logout
 import mysql.connector
 from django.db import connection
 import json
-<<<<<<< HEAD
-conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
-cursor=conn.cursor()
-=======
 
-<<<<<<< HEAD
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
-=======
-# conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
-# cursor=conn.cursor()
->>>>>>> master
->>>>>>> master
+# cursor=conn.cursor()master
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -48,6 +39,7 @@ def render_login(request):
     return render(request,'login.html')
 
 def login(request):
+    global cursor
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     #print(str(request.session.items()))
@@ -191,13 +183,20 @@ def add_user(request):
         res=cursor.execute("select ssn,t_id from user  where email='{}'".format(request.GET["email"]))
         print(res)
         return HttpResponseRedirect({"success":"","error":""})
-=======
-<<<<<<< HEAD
 
 def team_member_dashboard_render(request):
     ssn = 1
     team_id = 1
     email = "2017.harshita.singh@ves.ac.in"
+    
+    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(ssn))
+    result = cursor.fetchone()
+    #print(eval(result[1])[team_id][1])
+    details = {
+        "name" : result[0],
+        "designation" : eval(result[1])[team_id][1]
+    }
+    
 
     cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(team_id,ssn))
     result = cursor.fetchall()
@@ -205,8 +204,7 @@ def team_member_dashboard_render(request):
     data = dict()
 
     i = 0
-    
-<<<<<<< HEAD
+
     for x in result:
         deadlines = list(eval(x[2]).items())
         d=list()
@@ -220,17 +218,10 @@ def team_member_dashboard_render(request):
         i+=1
     context = dict()
     context["data"] = data
+    context["details"] = details
     context["len"] = i
         #print(x)
         #print(data)
         #print(request.session["email"])
-    print(context)
-
-    
+    #print(context)
     return render(request,'team_member/team_member_index.html',context)
-=======
-    return render(request,'team_member/team_member_index.html')
-=======
->>>>>>> master
->>>>>>> master
->>>>>>> master

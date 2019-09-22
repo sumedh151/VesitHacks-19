@@ -92,17 +92,11 @@ DATABASES = {
 
         #'PASSWORD': 'harshita@99',
         # 'PASSWORD': 'sumedhdg15',
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
         'PASSWORD': '',
-=======
-<<<<<<< HEAD
->>>>>>> master
         #'PASSWORD': 'root',
         #'HOST': 'localhost',
         # 'PASSWORD': 'root',
->>>>>>> master
+
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {

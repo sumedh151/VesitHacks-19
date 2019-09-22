@@ -9,7 +9,7 @@
         <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}"> -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>
-            {{team}} : {{name}}
+            {{team}} : {{details.name}}
         </title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
         <!--     Fonts and icons     -->
@@ -41,8 +41,8 @@
                           </div> -->
                         </a>
                         <a href="#" class="simple-text logo-normal">
-                          {{name}} <br>
-                          {{designation}}
+                            {{details.name}} <br>
+                          {{details.designation}}
                           <!-- <div class="logo-image-big">
                             <img src="../assets/img/logo-big.png">
                           </div> -->

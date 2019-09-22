@@ -83,29 +83,21 @@ DATABASES = {
         'HOST': 'localhost',
         #'USER': 'harshita',
         'USER': 'root',
-        # 'PASSWORD': 'sumedhdg15',
-<<<<<<< HEAD
+        'PASSWORD': 'sumedhdg15',
         #'PASSWORD': 'root',
-        'PASSWORD': '',
+        # 'PASSWORD': '',
         # 'PASSWORD': 'root',
-=======
-        'PASSWORD': 'root',
->>>>>>> master
+
+        # 'PASSWORD': 'root',
         # 'PASSWORD': 'harshita@99',
 
         #'PASSWORD': 'harshita@99',
         # 'PASSWORD': 'sumedhdg15',
-<<<<<<< HEAD
-        'PASSWORD': '',
-=======
-<<<<<<< HEAD
         #'PASSWORD': 'root',
         #'HOST': 'localhost',
-=======
+
         # 'PASSWORD': 'root',
->>>>>>> master
-        'HOST': 'localhost',
->>>>>>> master
+        # 'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 

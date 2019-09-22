@@ -4,14 +4,8 @@ from django.contrib.auth import logout
 # import mysql.connector
 from django.db import connection
 import json
-<<<<<<< HEAD
-conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
-cursor=conn.cursor()
-=======
-
 # conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 # cursor=conn.cursor()
->>>>>>> master
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -25,9 +19,9 @@ def history(request):
 
 def edit(request):
     return render(request, "team_member/edit_profile.html")
-<<<<<<< HEAD
+
     #return render(request,'layout/index.html')
-=======
+
 
 def team_incharge_index(request):
     return render(request,'team_incharge/team_incharge_index.html')
@@ -40,13 +34,12 @@ def team_incharge_index(request):
 
 def rating(request):
     return render(request, "team_incharge/team_incharge_rating.html")
->>>>>>> master
 
 def render_login(request):
     return render(request,'login.html')
 
 def login(request):
-<<<<<<< HEAD
+
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     #print(str(request.session.items()))
@@ -87,7 +80,7 @@ def login(request):
             return render(request,'team_member/dabba.html',{"data": data})
         elif res[0][2]=="0":
             return render(request,'team_member/dabba.html')
-=======
+
     with connection.cursor() as cursor:        
         res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
         res=cursor.fetchall()
@@ -116,7 +109,6 @@ def login(request):
                 return render(request,'login.html',{"error": ''})
             elif res[0][2]=="0":
                 return render(request,'dashboard.html')
->>>>>>> master
                 
 def log_out(request):
     logout(request)
@@ -178,7 +170,6 @@ def check_if_submitted(request):
     #print(final_rating)
 #print(rating)
     return HttpResponse("In the function")
-<<<<<<< HEAD
 
 
 def add_user(request):
@@ -193,8 +184,6 @@ def add_user(request):
         res=cursor.execute("select ssn,t_id from user  where email='{}'".format(request.GET["email"]))
         print(res)
         return HttpResponseRedirect({"success":"","error":""})
-=======
-<<<<<<< HEAD
 
 def team_member_dashboard_render(request):
     ssn = 1
@@ -213,6 +202,3 @@ def team_member_dashboard_render(request):
     print(data)
     
     return render(request,'team_member/team_member_index.html')
-=======
->>>>>>> master
->>>>>>> master

@@ -14,8 +14,8 @@ urlpatterns=[
     path('log_out',views.log_out,name='logout'),
     path('submit',views.check_if_submitted,name="check_if_submitted"),
 
-    url(r'^test/$', views.test, name="test"),
-    url(r'^history/$', views.history, name="history"),
+    #url(r'^test/$', views.test, name="test"),
+    #url(r'^history/$', views.history, name="history"),
 
     #url(r'^test/$', views.test, name="test"),
     url(r'^history/$', views.team_member_history, name="history"),

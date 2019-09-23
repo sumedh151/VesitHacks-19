@@ -39,6 +39,8 @@ def login(request):
     global cursor
     
     res=cursor.execute("select ssn,email,t_id,name from user where email='{}'".format(request.user.email))
+
+
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -305,6 +307,11 @@ def team_incharge_index(request, id):
     request.session["param"] = param    
     print(p)
     return render(request, "team_incharge/team_incharge_index.html", context)
+
+    request.session["team_member_details"] = context
+    return render(request,'team_member/team_member_index.html', context)
+
+
 
 def rating(request):
     data = request.session["team_incharge_details"]["data"]

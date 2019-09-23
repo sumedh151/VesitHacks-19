@@ -40,4 +40,5 @@ urlpatterns=[
     # path('rating', views.rating, name="rating"),
 
     path('admin_index', views.admin_index, name="admin_index"),
+    url(r'^incharge_edit_profile/$', views.team_incharge_edit, name="incharge_edit"),
 ]

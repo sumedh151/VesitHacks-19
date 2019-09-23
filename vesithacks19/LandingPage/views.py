@@ -8,6 +8,9 @@ import json
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
 
+def team_incharge_edit(request):
+    return render(request, "team_incharge/team_incharge_edit_profile.html")
+    pass
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -35,7 +38,7 @@ def render_login(request):
 def login(request):
     global cursor
     
-    res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
+    res=cursor.execute("select ssn,email,t_id,name from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -47,7 +50,7 @@ def login(request):
         request.session["email"]= request.user.email
         request.session["ssn"]=res[0][0]
         request.session["id"] = res[0][0]
-        
+        request.session["name"] = res[0][-1]
         if len(res[0][2])>1:
             result=eval(res[0][2])
             #print(result)
@@ -304,6 +307,13 @@ def team_incharge_index(request, id):
     return render(request, "team_incharge/team_incharge_index.html", context)
 
 def rating(request):
+    data = request.session["team_incharge_details"]["data"]
+    for i,j in data.items():
+        if "param" in list(j.keys()):
+            for _ in list(j["param"].keys()):
+                l = list(j["param"][_].values())
+                avg = int(sum(l)/len(l))
+                j["param"][_]["rating"] = avg
     return render(request, "team_incharge/team_incharge_rating_view.html")
 
 def render_dabba(request):

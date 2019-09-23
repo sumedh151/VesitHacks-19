@@ -20,16 +20,25 @@
                                 <th>
                                   Deadline
                                 </th>
+                                {% for p in request.session.param %}
+                                <th>
+                                  {{p}}
+                                </th>
+                                {% endfor %}
                                 <th>
                                   Total Rating
                                 </th>
                               </thead>
                               <tbody>
                               {% for i,j in request.session.team_incharge_details.data.items %}
-                                {% if j.task_id == 0 %}
-                                <tr>
+                              {% for date,param in j.param.items %}
+                              {% if j.task_id == 0 %}
+                              <tr>
                                   <td>{{j.name}}</td>
                                   <td><small>No Task Assigned</small></td>
+                                  <td>-</td>
+                                  <td>-</td>
+                                  <td>-</td>
                                   <td>-</td>
                                   <td>-</td>
                                 </tr>
@@ -37,19 +46,28 @@
                                   <tr>
                                     <td>{{j.name}}</td>
                                     <td>{{j.task_id}}</td>
+                                    <td>{{date}}</td>
                                     {% if j.total_rating == -1 %}
-                                        {% if j.submitted == 0 %}
+                                        {% if j.submitted == 0 %} 
+                                          <td>Not Submitted</td>
+                                          <td>Not Submitted</td>
                                           <td>Not Submitted</td>
                                         {% else %}
-                                          <td>Submitted</td>
+                                          {% for q,w in param.items %}
+                                            <td>{{w}}</td>
+                                          {% endfor %}
                                         {% endif %}
                                       <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Rate</button></td>
                                     {% else %}
-                                      <td>Submitted</td>
-                                      <td>{{j.total_rating}}</td>
+                                    {% for q,w in param.items %}
+                                    <td>{{w}}</td>
+                                  {% endfor %}
+                                      <!-- <td>{{j.total_rating}}</td> -->
                                     {% endif %}
                                   </tr>
                                 {% endif %}
+                              
+                              {% endfor %}  
                               {% endfor %}
                               </tbody>
                             </table>

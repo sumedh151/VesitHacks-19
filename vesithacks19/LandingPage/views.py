@@ -5,6 +5,15 @@ import mysql.connector
 from django.db import connection
 import time
 import json
+<<<<<<< Updated upstream
+=======
+from LandingPage.forms import FileUploadForm
+from django.core.files.uploadedfile import UploadedFile
+import os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.core.files import File
+>>>>>>> Stashed changes
 import time
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
@@ -39,8 +48,13 @@ def render_login(request):
 
 def login(request):
     global cursor
+<<<<<<< Updated upstream
     
     res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
+=======
+    print(request.user.email)
+    res=cursor.execute("select ssn,email,t_id,name from user where email='{}'".format(request.user.email))
+>>>>>>> Stashed changes
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -86,7 +100,7 @@ def login(request):
             data=dict()
             for i in range(len(request.session["roles"])):
                 data[i]=request.session["roles"][i]
-            print(data)
+            #print(data)
             #print(type(data))
             return render(request,'team_incharge/dabba.html',{"data": data})
         elif res[0][2]=="0":
@@ -213,9 +227,11 @@ def add_user(request):
             # return HttpResponse(sql)
             res=cursor.execute(sql)
             # cursor.commit()
-            sql = "select ssn,t_id from user  where email='{}'".format(request.POST["email"])
-            cursor.execute(sql)
-            res = cursor.fetchall()
+            sql="select members from team where t_id={}".format(request.session["current_team"])
+            res=cursor.execute(sql)
+            res=res.fetchone()
+            x=eval(res[0])
+
             # print(res)
             return HttpResponseRedirect('/team_member/dabba',{"success":"","error":""})
 
@@ -334,6 +350,7 @@ def render_dabba(request):
     return redirect('/login_check')
     # return render("team_member.html/dabba.html")
 
+<<<<<<< Updated upstream
 def create_notification(request):
     # return HttpResponse("123")
     with connection.cursor() as cursor:
@@ -433,3 +450,43 @@ def display_notification(request):
 
     except:
         pass
+=======
+def render_file_form(request):
+    file=FileUploadForm()
+    return render(request,"file_upload.html",{"form":file})
+
+def simple_upload(request):
+    request.session["ssn"]=1
+    request.session["task_id"]=1
+    request.session["team_id"]=1
+    
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        print(myfile.name)
+        filename=myfile.name
+        file_ext=filename[-4:]
+        if(file_ext==".pdf"):
+            myfile.name="{}_{}_{}.pdf".format(request.session["ssn"],
+            request.session["task_id"],
+            request.session["team_id"])
+            fs = FileSystemStorage()
+            files = [f for f in os.listdir(settings.MEDIA_ROOT) if os.path.isfile(f)]
+            files = filter(lambda f: f.endswith(('.pdf','.PDF')), files)
+            if myfile.name not in files:
+                filename = fs.save(myfile.name, myfile)
+                uploaded_file_url = fs.url(filename)
+                result_url=dict()
+                x=time.strftime("%Y-%m-%d")
+                result_url[x]=uploaded_file_url
+                #print(request.session["ssn"])
+                sql='update tasks set file_path="{0}" where team_id={1} and task_id={2} and ssn= {3}'.format(str(result_url),request.session["team_id"],request.session["task_id"],request.session["ssn"])
+                cursor.execute(sql)
+                conn.commit()
+                return render(request, 'file_upload.html', {
+                'uploaded_file_url': uploaded_file_url
+                })
+            else:
+                return HttpResponse("File Already Uploaded")
+        return HttpResponse("Error")
+    return HttpResponse("Error")
+>>>>>>> Stashed changes

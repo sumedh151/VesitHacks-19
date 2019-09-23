@@ -18,8 +18,8 @@ urlpatterns=[
     # url(r'^history/$', views.history, name="history"),
 
     #url(r'^test/$', views.test, name="test"),
-    url(r'^history/$', views.team_member_history, name="history"),
-    url(r'^edit/$', views.edit, name="edit"),
+    #url(r'^history/$', views.team_member_history, name="history"),
+    #url(r'^edit/$', views.edit, name="edit"),
 
     path('login',views.render_login,name="view_login"),
     path('login_check',views.login,name='login'),
@@ -37,8 +37,9 @@ urlpatterns=[
 
     #path('team_incharge_dabba', views.team_incharge_dabba, name="team_incharge_dabba"),
     # path('rating', views.rating, name="rating"),
-
+    path('render_file_form',views.render_file_form,name="render_file_form"),
     path('admin_index', views.admin_index, name="admin_index"),
     url('createnotification',views.create_notification,name="display_notification"),
     url(r'^incharge_edit_profile/$', views.team_incharge_edit, name="incharge_edit"),
+    path('simple_upload',views.simple_upload, name="file_upload")
 ]

@@ -20,11 +20,11 @@ def edit(request):
     
     #return render(request,'layout/index.html')
 
-def team_incharge_index(request):
-    return render(request,'team_incharge/team_incharge_index.html')
+# def team_incharge_index(request):
+#     return render(request,'team_incharge/team_incharge_index.html')
 
-def rating(request):
-    return render(request, "team_incharge/team_incharge_rating.html")
+# def rating(request):
+#     return render(request, "team_incharge/team_incharge_rating.html")
 
 def admin_index(request):
     return render(request,'admin/admin_index.html')
@@ -39,7 +39,6 @@ def login(request):
     global cursor
     
     res=cursor.execute("select ssn,email,t_id,name from user where email='{}'".format(request.user.email))
-
 
     res=cursor.fetchall()
     
@@ -102,7 +101,7 @@ def login(request):
             if len(res[0][2])>1:
                 result=eval(res[0][2])
                 x=list(result.keys())
-                print(x)
+                #print(x)
                 roles=dict()
                 for i in range(len(x)):
                     t=dict()
@@ -122,7 +121,7 @@ def login(request):
                 
 def log_out(request):
     logout(request)
-    return render(request, "index.html")
+    return redirect("/")
 
 def check_if_submitted(request):
     request.session["current_team"]=1
@@ -307,9 +306,6 @@ def team_incharge_index(request, id):
     request.session["param"] = param    
     print(p)
     return render(request, "team_incharge/team_incharge_index.html", context)
-
-    request.session["team_member_details"] = context
-    return render(request,'team_member/team_member_index.html', context)
 
 def rating(request):
     data = request.session["team_incharge_details"]["data"]

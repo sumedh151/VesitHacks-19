@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 import mysql.connector
 from django.db import connection
 import json
+import time
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
@@ -262,3 +263,103 @@ def rating(request):
 def render_dabba(request):
     return redirect('/login_check')
     # return render("team_member.html/dabba.html")
+
+def create_notification(request):
+    # return HttpResponse("123")
+    with connection.cursor() as cursor:
+        try:
+            ssn = request.session['ssn']
+        except:
+            ssn = 1
+            # pass
+        # content = request.POST['content']
+        content = "456465"
+        # to = request.POST['to']
+        to = 25
+
+        # Find sedner team path
+        # sender_team_id = request.POST['sender_team_id']
+        sender_team_id = 1
+        sql = "SELECT team_path from team where t_id = '{}'".format(sender_team_id)
+        # return HttpResponse(sql)
+        cursor.execute(sql)
+        res = eval(cursor.fetchall()[0][0])
+        # return HttpResponse(res[1]) 
+        sender_team_path = res
+        # return HttpResponse(sender_team_path)
+
+        # Find receiver team path
+        # receiver_team_id = request.POST['receiver_team_id']
+        receiver_team_id = 2
+        sql = "SELECT team_path from team where t_id = '{}'".format(receiver_team_id)
+        cursor.execute(sql)
+        res = eval(cursor.fetchall()[0][0])
+        receiver_team_path = res
+        index_r = None
+        index_s = None
+        # return HttpResponse(len(receiver_team_path))
+        for i in sender_team_path:
+            if(i in receiver_team_path):
+                index_r = receiver_team_path.index(i)
+                index_s = sender_team_path.index(i)
+                break
+        # sql = "select * from user where ssn = '1'"
+        # cursor.execute(sql)
+        # res = cursor.fetchall()[0]
+        # return HttpResponse(str(res[1]))
+        # return HttpResponse("{} {}".format(index_r,index_s))
+        if(index_r):
+            sender_team_path = sender_team_path[:(index_s+1)]
+            receiver_team_path = receiver_team_path[:(index_r+1)]
+            dict1 = {ssn:{'1':[sender_team_path[0]],'0':[],'to':to}}
+
+            # return HttpResponse(dict1.items())
+            # Find maaximum notification id
+            sql = "SELECT max(note_id) from notifications"
+            cursor.execute(sql)
+            res = cursor.fetchone()[0]
+            # print(res,type(res))
+            # return HttpResponse(123)
+            note_id = res+1
+            # return HttpResponse(str(note_id))
+            init = time.strftime('%Y-%m-%d %H:%M:%S')
+            sql = "INSERT into notifications(note_id,ssn,initiated_at,content) values ('{}','{}','{}',{})".format(note_id,ssn,init,'"' + str(dict1) + '"')
+            # print(sql)
+            cursor.execute(sql)
+            # res = curso   r.fetchall()
+
+            # Check a tuple exists for the person if not insert or update it
+            sql = "SELECT count(*) from store_notifications where ssn = {}".format(sender_team_path[0])
+            cursor.execute(sql)
+            res = cursor.fetchall()[0]
+            if(res):
+                sql = "SELECT last_updated,note_list from store_notifications where ssn = {}".format(ssn)
+                cursor.execute(sql)
+                res = cursor.fetchall()[0]
+                last_updated = init
+                notify = res[1].insert(0,[to,1,content])
+                sql = "INSERT into store_notifications(ssn,last_updated,note_list) values('{}','{}',{})".format(ssn,last_updated,'"' + str(notify) + '"')
+                cursor.execute(sql)
+            else:
+                sql = "INSERT into store_notifications(ssn,last_updated,note_list) values('{}','{}',{})".format(ssn,init,'NULL')
+                cursor.execute(sql)
+        return redirect('/login_check')
+
+
+def forward_notification(request):
+    pass
+
+
+def display_notification(request):
+    try:
+        ssn = request.session['ssn']
+    except:
+        ssn = 1
+        # pass
+    content = request.POST['content']
+    to = request.POST['to']
+    try:
+        forward = request.POST['formard']
+
+    except:
+        pass

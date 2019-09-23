@@ -3,6 +3,7 @@ from django.shortcuts import *
 from django.contrib.auth import logout
 import mysql.connector
 from django.db import connection
+import time
 import json
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
@@ -35,7 +36,7 @@ def render_login(request):
 def login(request):
     global cursor
     
-    res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
+    cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -117,6 +118,15 @@ def login(request):
                 
 def log_out(request):
     logout(request)
+    try:
+        ssn = request.session['ssn']
+    except:
+        pass
+    last_active = time.strftime('%Y-%m-%d %H:%M:%S')
+    with connection.cursor() as cur:
+        sql = "UPDATE user set last_active = '{}' where ssn = '{}".format(last_active,ssn)
+        cur.execute(sql)
+
     return HttpResponseRedirect('/login')
 
 def check_if_submitted(request):

@@ -67,46 +67,46 @@
     //   });
     // }
 
-    $(document).ready(function () {
-    $('.nav li a').click(function(e) {
-        //console.log("hello")
-        $('.nav li.active').removeClass('active');
-        var $parent = $(this).parent();
-        $parent.addClass('active');
-        e.preventDefault();
-        var name = $(this).attr("id");
-        console.log(name);
-        console.log($(this));
-       // Activate the right nav-link
-        //var id = $(".content h1").attr("id");
-        var id = $(this).attr("id");
-        var page = $(".content").attr("id");
-        if (id == "report"){
-          if (page == "report"){
+//     $(document).ready(function () {
+//     $('.nav li a').click(function(e) {
+//         //console.log("hello")
+//         $('.nav li.active').removeClass('active');
+//         var $parent = $(this).parent();
+//         $parent.addClass('active');
+//         e.preventDefault();
+//         var name = $(this).attr("id");
+//         console.log(name);
+//         console.log($(this));
+//        // Activate the right nav-link
+//         //var id = $(".content h1").attr("id");
+//         var id = $(this).attr("id");
+//         var page = $(".content").attr("id");
+//         if (id == "report"){
+//           if (page == "report"){
 
-            $parent.addClass("active");
-          }
-        }
-        if (id == "rating"){
-          if (page == "rating"){
+//             $parent.addClass("active");
+//           }
+//         }
+//         if (id == "rating"){
+//           if (page == "rating"){
 
-            $parent.addClass("active");
-          }
-        }
-        // if(id == "notifications"){
-        //     if(name == "notifications_nav"){
-        //         $('.nav li.active').removeClass('active');
-        //         $parent.addClass('active');        
-        //     }
-        // }
-    });
-    // temporary handling of nav
-    // var id = $(".content h1").attr("id");
-    // if(id == "notifications"){
-    //     $('.nav li.active').removeClass('active');
-    //     $("#notifications_nav").parent().addClass("active");
-    // }
-});
+//             $parent.addClass("active");
+//           }
+//         }
+//         // if(id == "notifications"){
+//         //     if(name == "notifications_nav"){
+//         //         $('.nav li.active').removeClass('active');
+//         //         $parent.addClass('active');        
+//         //     }
+//         // }
+//     });
+//     // temporary handling of nav
+//     // var id = $(".content h1").attr("id");
+//     // if(id == "notifications"){
+//     //     $('.nav li.active').removeClass('active');
+//     //     $("#notifications_nav").parent().addClass("active");
+//     // }
+// });
 
   </script>
 </body>

@@ -37,11 +37,10 @@
                         <tr>
                           <td>{{j.task_id}}</td>
                           <td>{{y}}</td>
-                          <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
+                          <td><button class="btn btn-primary" onclick = "team_selection()"><i class="nc-icon nc-paper"></i> Submit</button></td>
                         </tr>
                       {% endif %}
                       {% endfor %}
-                    
                     {% endfor %}
                     {% empty %}
                     <h5 class="card-title">No Upcoming Submissions</h5>
@@ -55,5 +54,4 @@
         </div>
       </div>
       {% endif %}
-        
 {% endblock %}

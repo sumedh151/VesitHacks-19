@@ -5,10 +5,14 @@ import mysql.connector
 from django.db import connection
 import time
 import json
+import time
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
 
+def team_incharge_edit(request):
+    return render(request, "team_incharge/team_incharge_edit_profile.html")
+    pass
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -36,7 +40,7 @@ def render_login(request):
 def login(request):
     global cursor
     
-    cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
+    res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -48,7 +52,7 @@ def login(request):
         request.session["email"]= request.user.email
         request.session["ssn"]=res[0][0]
         request.session["id"] = res[0][0]
-        
+        request.session["name"] = res[0][-1]
         if len(res[0][2])>1:
             result=eval(res[0][2])
             #print(result)
@@ -84,7 +88,7 @@ def login(request):
                 data[i]=request.session["roles"][i]
             print(data)
             #print(type(data))
-            return render(request,'team_member/dabba.html',{"data": data})
+            return render(request,'team_incharge/dabba.html',{"data": data})
         elif res[0][2]=="0":
             return render(request,'team_member/dabba.html')
     with connection.cursor() as cursor:        
@@ -215,22 +219,20 @@ def add_user(request):
             # print(res)
             return HttpResponseRedirect('/team_member/dabba',{"success":"","error":""})
 
-def team_member_dashboard_render(request):
-    
-    ssn = 1
-    team_id = 1
-    email = "2017.harshita.singh@ves.ac.in"
-    print(request.session)
-    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(ssn))
+def team_member_dashboard_render(request, id):
+    team_id = int(id)
+    request.session["current_team"] = id
+    #email = "2017.harshita.singh@ves.ac.in"
+    #print(request.session.items())
+    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(request.session["ssn"]))
     result = cursor.fetchone()
-    #print(eval(result[1])[team_id][1])
+    #print(eval(result[1]))
     details = {
         "name" : result[0],
         "designation" : eval(result[1])[team_id][1]
     }
     
-
-    cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(team_id,ssn))
+    cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(id,request.session["ssn"]))
     result = cursor.fetchall()
     l = list(range(0,len(result)))
     data = dict()
@@ -256,19 +258,178 @@ def team_member_dashboard_render(request):
         request.session["team_member_details"] = context
     except Exception as identifier:
         pass
-    request.session["team_member_details"] = context
+    
     return render(request,'team_member/team_member_index.html', context)
 
 def team_member_history(request):
     return render(request, "team_member/team_member_history.html")
 
-    
-def team_incharge_index(request):
-    return HttpResponse()
+def team_incharge_index(request, id):
+    request.session["current_team"] = id
+    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(request.session["ssn"]))
+    result = cursor.fetchone()
+    #print(eval(result[1]))
+    details = {
+        "name" : result[0],
+        "designation" : eval(result[1])[id][1]
+    }
+    cursor.execute("SELECT members, team_status FROM team WHERE t_id = {} and mgr_ssn = {}".format(id,request.session["ssn"]))
+    users = list(eval(cursor.fetchone()[0]).keys())
+    print(users)
+    data = dict()
+    d = list()
+    param = []
+    p = dict()
+    for i in users :
+        cursor.execute("SELECT name FROM user WHERE ssn = {}".format(i))
+        name = cursor.fetchone()[0] 
+        cursor.execute("SELECT task_id,rating FROM tasks WHERE team_id = {} and ssn = {}".format(id,i))
+        result = cursor.fetchall()
+        #print(result)
+        if result == [] or result == None:
+            data[str(id)] = {"name" : name, "submitted" : 0, "ranking" : -1, "task_id" : 0}
+        else :
+            for x in result:
+                if x[1] == "" or x[1] == None:
+                    data[str(i)] = {"name" : name, "submitted" : 0, "ranking" : -1, "task_id" : x[0]}
+                    #d.append(data)
+                else : 
+                    #d = list(map(int,eval(x[1]).values()))
+                    d = list(eval(x[1]).values())
+                    p = eval(x[1])
+                    if param == [] :
+                        k = list(p.keys())
+                        for _ in k:
+                            param = list(p[_].keys())
+                    
+                    avg = 0
+                    l = 0
+                    for y in d:
+                        y = list(map(int,y.values()))
+                        l += len(y)
+                        avg += sum(y)
+                    avg  = int(avg/l)
+                data[str(i)] = {"name" : name, "submitted" : 1, "total_rating" : avg, "task_id" : x[0], "param" : p}
+        #print(data)
+    context = {"data" : data, "details" : details}
+    request.session["team_incharge_details"] = context
+    request.session["param"] = param    
+    print(p)
+    return render(request, "team_incharge/team_incharge_index.html", context)
+
+    request.session["team_member_details"] = context
+    return render(request,'team_member/team_member_index.html', context)
 
 def rating(request):
-    return HttpResponse()
+    data = request.session["team_incharge_details"]["data"]
+    for i,j in data.items():
+        if "param" in list(j.keys()):
+            for _ in list(j["param"].keys()):
+                l = list(j["param"][_].values())
+                avg = int(sum(l)/len(l))
+                j["param"][_]["rating"] = avg
+    return render(request, "team_incharge/team_incharge_rating_view.html")
 
 def render_dabba(request):
     return redirect('/login_check')
     # return render("team_member.html/dabba.html")
+
+def create_notification(request):
+    # return HttpResponse("123")
+    with connection.cursor() as cursor:
+        try:
+            ssn = request.session['ssn']
+        except:
+            ssn = 1
+            # pass
+        # content = request.POST['content']
+        content = "456465"
+        # to = request.POST['to']
+        to = 25
+
+        # Find sedner team path
+        # sender_team_id = request.POST['sender_team_id']
+        sender_team_id = 1
+        sql = "SELECT team_path from team where t_id = '{}'".format(sender_team_id)
+        # return HttpResponse(sql)
+        cursor.execute(sql)
+        res = eval(cursor.fetchall()[0][0])
+        # return HttpResponse(res[1]) 
+        sender_team_path = res
+        # return HttpResponse(sender_team_path)
+
+        # Find receiver team path
+        # receiver_team_id = request.POST['receiver_team_id']
+        receiver_team_id = 2
+        sql = "SELECT team_path from team where t_id = '{}'".format(receiver_team_id)
+        cursor.execute(sql)
+        res = eval(cursor.fetchall()[0][0])
+        receiver_team_path = res
+        index_r = None
+        index_s = None
+        # return HttpResponse(len(receiver_team_path))
+        for i in sender_team_path:
+            if(i in receiver_team_path):
+                index_r = receiver_team_path.index(i)
+                index_s = sender_team_path.index(i)
+                break
+        # sql = "select * from user where ssn = '1'"
+        # cursor.execute(sql)
+        # res = cursor.fetchall()[0]
+        # return HttpResponse(str(res[1]))
+        # return HttpResponse("{} {}".format(index_r,index_s))
+        if(index_r):
+            sender_team_path = sender_team_path[:(index_s+1)]
+            receiver_team_path = receiver_team_path[:(index_r+1)]
+            dict1 = {ssn:{'1':[sender_team_path[0]],'0':[],'to':to}}
+
+            # return HttpResponse(dict1.items())
+            # Find maaximum notification id
+            sql = "SELECT max(note_id) from notifications"
+            cursor.execute(sql)
+            res = cursor.fetchone()[0]
+            # print(res,type(res))
+            # return HttpResponse(123)
+            note_id = res+1
+            # return HttpResponse(str(note_id))
+            init = time.strftime('%Y-%m-%d %H:%M:%S')
+            sql = "INSERT into notifications(note_id,ssn,initiated_at,content) values ('{}','{}','{}',{})".format(note_id,ssn,init,'"' + str(dict1) + '"')
+            # print(sql)
+            cursor.execute(sql)
+            # res = curso   r.fetchall()
+
+            # Check a tuple exists for the person if not insert or update it
+            sql = "SELECT count(*) from store_notifications where ssn = {}".format(sender_team_path[0])
+            cursor.execute(sql)
+            res = cursor.fetchall()[0]
+            if(res):
+                sql = "SELECT last_updated,note_list from store_notifications where ssn = {}".format(ssn)
+                cursor.execute(sql)
+                res = cursor.fetchall()[0]
+                last_updated = init
+                notify = res[1].insert(0,[to,1,content])
+                sql = "INSERT into store_notifications(ssn,last_updated,note_list) values('{}','{}',{})".format(ssn,last_updated,'"' + str(notify) + '"')
+                cursor.execute(sql)
+            else:
+                sql = "INSERT into store_notifications(ssn,last_updated,note_list) values('{}','{}',{})".format(ssn,init,'NULL')
+                cursor.execute(sql)
+        return redirect('/login_check')
+
+
+def forward_notification(request):
+    pass
+
+
+def display_notification(request):
+    try:
+        ssn = request.session['ssn']
+    except:
+        ssn = 1
+        # pass
+    content = request.POST['content']
+    to = request.POST['to']
+    try:
+        forward = request.POST['formard']
+
+    except:
+        pass

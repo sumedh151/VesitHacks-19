@@ -1,40 +1,63 @@
 {% extends 'team_incharge/layout/dabba_header.html' %}
 {% block team_incharge_dabba %}
 <div class="main-panel">
-<div class="content">
-  <div class="row">
-    {% for dabba in dabbas %}
-      <div class="col-lg-3 col-md-6 col-sm-6">
+<div class="content ">
+    {% for i,j in data.items %}
+    <div class="row">  
+    <div class="col-lg-5 col-md-6 col-sm-6">
         <div class="card card-stats">
-          <div class="card-body ">
+          <div class="card-body text-center">
             <div class="row">
-              <div class="col-5 col-md-4">
+              <!-- <div class="col-5 col-md-4">
                 <div class="icon-big text-center icon-warning">
                   <i class="nc-icon nc-globe text-warning"></i>
                 </div>
-              </div>
-              <div class="col-7 col-md-8">
+              </div> -->
+              <div class="col-10 col-md-8">
                 <div class="numbers">
-                  <p class="card-category">Team Name</p>
+                    {% if j.role == 1 %}
+                      <p class="card-category"><a href="team_incharge/{{j.team_id}}">{{j.team_name}}</a></p>
+                      <!-- Role : Team Incharge -->
+                    {% else %}
+                    <p class="card-category"><a href="http://127.0.0.1:8000/{{j.team_id}}/team_member/">{{j.team_name}}</a></p>
+                    <!-- <p class="card-category"></p>  
+                    Role : Team Member -->
+                    {% endif %}
                 </div>
               </div>
             </div>
           </div>
           <div class="card-footer ">
             <hr>
+            {% if j.role == 1 %}
+            <p>Role : Team Incharge</p>
+            {% else %}
+            <p>Role : Team Member</p>
+            {% endif %}
+            <p>Designation : {{j.designation}}</p>
           </div>
         </div>
       </div>
-      <div class="card-footer ">
+      <!-- <div class="card-footer ">
         <hr>
         <div class="stats">
-          <i class="fa fa-refresh"></i>request.sessions['roles']['designation'] 
+          <i class="fa fa-refresh"></i>{{request.sessions.roles}} 
         </div>
+      </div> -->
       </div>
       {% endfor %}
-  </div>
-  heya
 </div>
 
 </div>
+
+
+<script>
+    $(document).ready(function () {
+      $('a').onclick(function(e) {
+        console.log("hello")
+      });
+    });
+
+</script>
+
 {% endblock %}

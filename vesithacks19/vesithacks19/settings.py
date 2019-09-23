@@ -76,17 +76,17 @@ WSGI_APPLICATION = 'vesithacks19.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ratingSystem',
-        'USER': 'root',
-        # 'PASSWORD': 'sumedhdg15',
-        'PASSWORD': 'root',
-        #'PASSWORD': 'harshita@99',
-        'HOST': 'localhost',
-        'PORT': '',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 
-        },
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'ratingSystem',
+        # 'USER': 'root',
+        # # 'PASSWORD': 'sumedhdg15',
+        # 'PASSWORD': 'root',
+        # #'PASSWORD': 'harshita@99',
+        # 'HOST': 'localhost',
+        # 'PORT': '',
+        # 'OPTIONS': {
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 
+        # },
     }
 }
 

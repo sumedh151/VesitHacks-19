@@ -23,7 +23,7 @@ urlpatterns = [
     path('',include('LandingPage.urls')),
     path('admin/', admin.site.urls),
     path('',include('social_django.urls',namespace='social')),
-    path('/user',include('user.urls')),
+    path('user',include('user.urls')),
 ]
 
 urlpatterns+=staticfiles_urlpatterns()

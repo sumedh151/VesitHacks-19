@@ -311,8 +311,6 @@ def team_incharge_index(request, id):
     request.session["team_member_details"] = context
     return render(request,'team_member/team_member_index.html', context)
 
-
-
 def rating(request):
     data = request.session["team_incharge_details"]["data"]
     for i,j in data.items():

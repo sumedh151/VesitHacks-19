@@ -9,7 +9,7 @@
         <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}"> -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>
-            {{team}} : {{name}}
+            Rating : {{request.session.team_incharge_details.details.name}}
         </title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
         <!--     Fonts and icons     -->
@@ -44,8 +44,8 @@
                           </div> -->
                         </a>
                         <a href="#" class="simple-text logo-normal">
-                          {{name}} <br>
-                          {{designation}}
+                            {{request.session.team_incharge_details.details.name}} <br>
+                            {{request.session.team_incharge_details.details.designation}}
                           <!-- <div class="logo-image-big">
                             <img src="../assets/img/logo-big.png">
                           </div> -->
@@ -53,8 +53,8 @@
                       </div>
                       <div class="sidebar-wrapper">
                         <ul class="nav" id="sumedh">
-                          <li class="active ">
-                            <a href="{% url 'team_incharge_index' %}" id = "report">
+                          <li class=" ">
+                            <a href="team_incharge/{{request.session.current_team}}" id = "report">
                               <i class="nc-icon nc-time-alarm"></i>
                               <p>Report</p>
                             </a>
@@ -67,7 +67,7 @@
                             </a>
                           </li>
                           <li>
-                            <a href="dabba.html">
+                            <a href="{% url 'login' %}">
                               <i class="nc-icon nc-settings" id="teams"></i>
                               <p>Teams</p>
                             </a>

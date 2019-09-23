@@ -16,6 +16,9 @@
                 Name
               </th>
               <th>
+                Task
+              </th>
+              <th>
                 Submission Status
               </th>
               <th>
@@ -23,12 +26,31 @@
               </th>
             </thead>
             <tbody>
-            {% for i in tasks %}
+            {% for i,j in request.session.team_incharge_details.data.items %}
+              {% if j.task_id == 0 %}
               <tr>
-                <td>name</td>
-                <td>submission status</td>
-                <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Submit</button></td>
+                <td>{{j.name}}</td>
+                <td><small>No Task Assigned</small></td>
+                <td>-</td>
+                <td>-</td>
               </tr>
+              {% else %}
+                <tr>
+                  <td>{{j.name}}</td>
+                  <td>{{j.task_id}}</td>
+                  {% if j.ranking == -1 %}
+                      {% if j.submitted == 0 %}
+                        <td>Not Submitted</td>
+                      {% else %}
+                        <td>Submitted</td>
+                      {% endif %}
+                    <td><button class="btn btn-primary"><i class="nc-icon nc-paper"></i> Rate</button></td>
+                  {% else %}
+                    <td>Submitted</td>
+                    <td>{{j.ranking}}</td>
+                  {% endif %}
+                </tr>
+              {% endif %}
             {% endfor %}
             </tbody>
           </table>

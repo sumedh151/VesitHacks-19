@@ -9,7 +9,7 @@
         <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}"> -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>
-            {{team}} : {{request.session.team_member_details.details.name}}
+            Rativity : {{request.session.team_member_details.details.name}}
         </title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
         <!--     Fonts and icons     -->
@@ -51,7 +51,7 @@
                       <div class="sidebar-wrapper">
                         <ul class="nav">
                           <li class="">
-                            <a href="{% url 'team_member' %}" id="upcoming">
+                            <a href="/{{request.session.current_team}}/team_member" id="upcoming">
                               <i class="nc-icon nc-time-alarm"></i>
                               <p>Upcoming</p>
                             </a>

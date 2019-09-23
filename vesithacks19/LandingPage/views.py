@@ -205,22 +205,20 @@ def add_user(request):
             # print(res)
             return HttpResponseRedirect('/team_member/dabba',{"success":"","error":""})
 
-def team_member_dashboard_render(request):
-    
-    ssn = 1
-    team_id = 1
-    email = "2017.harshita.singh@ves.ac.in"
-    print(request.session)
-    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(ssn))
+def team_member_dashboard_render(request, id):
+    team_id = int(id)
+    request.session["current_team"] = id
+    #email = "2017.harshita.singh@ves.ac.in"
+    #print(request.session.items())
+    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(request.session["ssn"]))
     result = cursor.fetchone()
-    #print(eval(result[1])[team_id][1])
+    #print(eval(result[1]))
     details = {
         "name" : result[0],
         "designation" : eval(result[1])[team_id][1]
     }
     
-
-    cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(team_id,ssn))
+    cursor.execute("SELECT task_id, deadline, rating from tasks where team_id = {} and ssn = {}".format(id,request.session["ssn"]))
     result = cursor.fetchall()
     l = list(range(0,len(result)))
     data = dict()
@@ -252,8 +250,47 @@ def team_member_dashboard_render(request):
 def team_member_history(request):
     return render(request, "team_member/team_member_history.html")
 
-def team_incharge_index(request):
-    return render(request, "team_incharge/team_incharge_index.html")
+def team_incharge_index(request, id):
+    request.session["current_team"] = id
+    cursor.execute("SELECT name, t_id FROM user WHERE ssn = {}".format(request.session["ssn"]))
+    result = cursor.fetchone()
+    #print(eval(result[1]))
+    details = {
+        "name" : result[0],
+        "designation" : eval(result[1])[id][1]
+    }
+    cursor.execute("SELECT members, team_status FROM team WHERE t_id = {} and mgr_ssn = {}".format(id,request.session["ssn"]))
+    users = list(eval(cursor.fetchone()[0]).keys())
+    print(users)
+    data = dict()
+    d = list()
+    for i in users :
+        cursor.execute("SELECT name FROM user WHERE ssn = {}".format(i))
+        name = cursor.fetchone()[0] 
+        cursor.execute("SELECT task_id,rating FROM tasks WHERE team_id = {} and ssn = {}".format(id,i))
+        result = cursor.fetchall()
+        #print(result)
+        if result == [] or result == None:
+            data[str(id)] = {"name" : name, "submitted" : 0, "ranking" : -1, "task_id" : 0}
+        else :
+            for x in result:
+                if x[1] == "" or x[1] == None:
+                    data[str(i)] = {"name" : name, "submitted" : 0, "ranking" : -1, "task_id" : x[0]}
+                    #d.append(data)
+                else : 
+                    #d = list(map(int,eval(x[1]).values()))
+                    d = list(eval(x[1]).values())
+                    avg = 0
+                    l = 0
+                    for y in d:
+                        y = list(map(int,y.values()))
+                        avg += int(sum(y)/len(y))
+                    
+                    data[str(i)] = {"name" : name, "submitted" : 1, "ranking" : avg, "task_id" : x[0]}
+                
+    context = {"data" : data, "details" : details}
+    request.session["team_incharge_details"] = context
+    return render(request, "team_incharge/team_incharge_index.html", context)
 
 def rating(request):
     return HttpResponse()

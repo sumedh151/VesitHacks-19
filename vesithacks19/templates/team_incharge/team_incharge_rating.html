@@ -20,9 +20,9 @@
               </th>
             </thead>
             <tbody>
-            {% for i in tasks %}
+            {% for i in request.session.param %}
               <tr>
-                <td>parameters</td>
+                <td>{{i}}</td>
                 <td><div class="my-rating-6"></div></td>
               </tr>
             {% endfor %}

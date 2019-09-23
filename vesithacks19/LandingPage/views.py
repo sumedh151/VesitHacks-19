@@ -264,6 +264,8 @@ def team_incharge_index(request, id):
     print(users)
     data = dict()
     d = list()
+    param = []
+    p = dict()
     for i in users :
         cursor.execute("SELECT name FROM user WHERE ssn = {}".format(i))
         name = cursor.fetchone()[0] 
@@ -280,16 +282,25 @@ def team_incharge_index(request, id):
                 else : 
                     #d = list(map(int,eval(x[1]).values()))
                     d = list(eval(x[1]).values())
+                    p = eval(x[1])
+                    if param == [] :
+                        k = list(p.keys())
+                        for _ in k:
+                            param = list(p[_].keys())
+                    
                     avg = 0
                     l = 0
                     for y in d:
                         y = list(map(int,y.values()))
-                        avg += int(sum(y)/len(y))
-                    
-                    data[str(i)] = {"name" : name, "submitted" : 1, "ranking" : avg, "task_id" : x[0]}
-                
+                        l += len(y)
+                        avg += sum(y)
+                    avg  = int(avg/l)
+                data[str(i)] = {"name" : name, "submitted" : 1, "total_rating" : avg, "task_id" : x[0], "param" : p}
+        #print(data)
     context = {"data" : data, "details" : details}
     request.session["team_incharge_details"] = context
+    request.session["param"] = param
+    print(p)
     return render(request, "team_incharge/team_incharge_index.html", context)
 
 def rating(request):

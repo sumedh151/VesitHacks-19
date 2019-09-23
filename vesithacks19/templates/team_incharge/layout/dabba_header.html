@@ -4,11 +4,11 @@
 
     <head>
         <meta charset="utf-8" />
-        <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
-        <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+        <!-- <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+        <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}"> -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>
-            {{team}} : {{name}}
+            Rativity
         </title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
         <!--     Fonts and icons     -->
@@ -20,7 +20,7 @@
         <!-- CSS Just for demo purpose, don't include it in your project -->
         <!-- <link href="{% static 'assets/demo/demo.css'%}" rel="stylesheet" /> -->
 
-        <link rel="stylesheet" type="text/css" href="{%static 'assets/css/0star-rating-svg.css'%}">
+        <!-- <link rel="stylesheet" type="text/css" href="{%static 'assets/css/0star-rating-svg.css'%}"> -->
 
 
         <script src="{% static 'assets/js/core/jquery.min.js' %}" type="text/javascript"></script>
@@ -34,20 +34,19 @@
     <!-- Navbar -->
 
     <DIV class="wrapper">
-                 <div class="wrapper ">
-                    <div class="sidebar" data-color="black" data-active-color="warning">
-                      <!--
-                        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-                    -->
-                      <div class="logo">
-                        <a href="#" class="simple-text logo-mini">
-                          <!-- <div class="logo-image-small">
-                            <img src="../assets/img/logo-small.png">
-                          </div> -->
-                        </a>
-                        <a href="#" class="simple-text logo-normal">
-                          {{name}} <br>
-                          {{designation}}
+        <div class="wrapper ">
+          <div class="sidebar" data-color="black" data-active-color="warning">
+            <!--
+              Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+            -->
+            <div class="logo">
+              <a href="#" class="simple-text logo-mini">
+                <!-- <div class="logo-image-small">
+                  <img src="../assets/img/logo-small.png">
+                </div> -->
+              </a>
+                    <a href="#" class="simple-text logo-normal">
+                          {{request.session.name}} <br>
                           <!-- <div class="logo-image-big">
                             <img src="../assets/img/logo-big.png">
                           </div> -->
@@ -55,7 +54,24 @@
                       </div>
                       <div class="sidebar-wrapper">
                         <ul class="nav" id="sumedh">
-                        
+                            <li class=" ">
+                                <a href="#" id = "report">
+                                  <i class="nc-icon nc-bell-55"></i>
+                                  <p>Notifications</p>
+                                </a>
+                              </li>
+                            <li class=" ">
+                                <a href="#" id = "report" disabled>
+                                  <i class="nc-icon nc-single-02"></i>
+                                  <p>Profile</p>
+                                </a>
+                              </li>
+                              <li class=" ">
+                                <a href="{% url 'logout' %}" id = "report">
+                                  <i class="nc-icon nc-user-run"></i>
+                                  <p>Logout</p>
+                                </a>
+                              </li>
                         </ul>
                       </div>
                     </div>
@@ -73,12 +89,12 @@
                             </div>
                             <a class="navbar-brand" href="#">Rativity</a>
                           </div>
-                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                          <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-bar navbar-kebab"></span>
                             <span class="navbar-toggler-bar navbar-kebab"></span>
                             <span class="navbar-toggler-bar navbar-kebab"></span>
-                          </button>
-                          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                          </button> -->
+                          <!-- <div class="collapse navbar-collapse justify-content-end" id="navigation">
                           
                             <ul class="navbar-nav">
 
@@ -108,7 +124,7 @@
                                 </div>
                               </li>
                             </ul>
-                          </div>
+                          </div> -->
                         </div>
                       </nav>
                       <!-- End Navbar -->       

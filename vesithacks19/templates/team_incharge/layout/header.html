@@ -54,14 +54,14 @@
                       <div class="sidebar-wrapper">
                         <ul class="nav" id="sumedh">
                           <li class=" ">
-                            <a href="team_incharge/{{request.session.current_team}}" id = "report">
+                            <a href="http://127.0.0.1:8000/team_incharge/{{request.session.current_team}}" id = "report">
                               <i class="nc-icon nc-time-alarm"></i>
                               <p>Report</p>
                             </a>
                           </li>
 
                           <li>
-                            <a data-target="#rating" data-toggle="modal">
+                            <a href="{% url 'rating' %}">
                               <i class="nc-icon nc-tile-56"></i>
                               <p>Rating</p>
                             </a>

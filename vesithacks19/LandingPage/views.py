@@ -117,7 +117,7 @@ def login(request):
                 
 def log_out(request):
     logout(request)
-    return HttpResponseRedirect('/login')
+    return render(request, "index.html")
 
 def check_if_submitted(request):
     request.session["current_team"]=1
@@ -299,12 +299,12 @@ def team_incharge_index(request, id):
         #print(data)
     context = {"data" : data, "details" : details}
     request.session["team_incharge_details"] = context
-    request.session["param"] = param
+    request.session["param"] = param    
     print(p)
     return render(request, "team_incharge/team_incharge_index.html", context)
 
 def rating(request):
-    return HttpResponse()
+    return render(request, "team_incharge/team_incharge_rating_view.html")
 
 def render_dabba(request):
     return redirect('/login_check')

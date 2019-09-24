@@ -5,15 +5,12 @@ import mysql.connector
 from django.db import connection
 import time
 import json
-<<<<<<< Updated upstream
-=======
 from LandingPage.forms import FileUploadForm
 from django.core.files.uploadedfile import UploadedFile
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File
->>>>>>> Stashed changes
 import time
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
@@ -48,13 +45,8 @@ def render_login(request):
 
 def login(request):
     global cursor
-<<<<<<< Updated upstream
-    
-    res=cursor.execute("select ssn,email,t_id from user where email='{}'".format(request.user.email))
-=======
     print(request.user.email)
     res=cursor.execute("select ssn,email,t_id,name from user where email='{}'".format(request.user.email))
->>>>>>> Stashed changes
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -138,14 +130,14 @@ def log_out(request):
     logout(request)
     try:
         ssn = request.session['ssn']
+        last_active = time.strftime('%Y-%m-%d %H:%M:%S')
+        with connection.cursor() as cur:
+            sql = "UPDATE user set last_active = '{}' where ssn = '{}".format(last_active,ssn)
+            cur.execute(sql)
     except:
         pass
-    last_active = time.strftime('%Y-%m-%d %H:%M:%S')
-    with connection.cursor() as cur:
-        sql = "UPDATE user set last_active = '{}' where ssn = '{}".format(last_active,ssn)
-        cur.execute(sql)
-
-    return HttpResponseRedirect('/login')
+    
+    return HttpResponseRedirect('/')
 
 def check_if_submitted(request):
     request.session["current_team"]=1
@@ -350,7 +342,6 @@ def render_dabba(request):
     return redirect('/login_check')
     # return render("team_member.html/dabba.html")
 
-<<<<<<< Updated upstream
 def create_notification(request):
     # return HttpResponse("123")
     with connection.cursor() as cursor:
@@ -450,7 +441,6 @@ def display_notification(request):
 
     except:
         pass
-=======
 def render_file_form(request):
     file=FileUploadForm()
     return render(request,"file_upload.html",{"form":file})
@@ -489,4 +479,3 @@ def simple_upload(request):
                 return HttpResponse("File Already Uploaded")
         return HttpResponse("Error")
     return HttpResponse("Error")
->>>>>>> Stashed changes

@@ -3,7 +3,15 @@ from django.shortcuts import *
 from django.contrib.auth import logout
 import mysql.connector
 from django.db import connection
+import time
 import json
+from LandingPage.forms import FileUploadForm
+from django.core.files.uploadedfile import UploadedFile
+import os
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.core.files import File
+import time
 
 conn=mysql.connector.connect(host="localhost",database="ratingSystem",user="root",password="")
 cursor=conn.cursor()
@@ -37,9 +45,8 @@ def render_login(request):
 
 def login(request):
     global cursor
-    
+    print(request.user.email)
     res=cursor.execute("select ssn,email,t_id,name from user where email='{}'".format(request.user.email))
-
     res=cursor.fetchall()
     
     #print(str(request.session.items()))
@@ -85,7 +92,7 @@ def login(request):
             data=dict()
             for i in range(len(request.session["roles"])):
                 data[i]=request.session["roles"][i]
-            print(data)
+            #print(data)
             #print(type(data))
             return render(request,'team_incharge/dabba.html',{"data": data})
         elif res[0][2]=="0":
@@ -121,7 +128,17 @@ def login(request):
                 
 def log_out(request):
     logout(request)
-    return redirect("/")
+    try:
+        ssn = request.session['ssn']
+        last_active = time.strftime('%Y-%m-%d %H:%M:%S')
+        with connection.cursor() as cur:
+            sql = "UPDATE user set last_active = '{}' where ssn = '{}".format(last_active,ssn)
+            cur.execute(sql)
+    except:
+        pass
+    
+    return HttpResponseRedirect('/')
+
 
 def check_if_submitted(request):
     request.session["current_team"]=1
@@ -203,9 +220,11 @@ def add_user(request):
             # return HttpResponse(sql)
             res=cursor.execute(sql)
             # cursor.commit()
-            sql = "select ssn,t_id from user  where email='{}'".format(request.POST["email"])
-            cursor.execute(sql)
-            res = cursor.fetchall()
+            sql="select members from team where t_id={}".format(request.session["current_team"])
+            res=cursor.execute(sql)
+            res=res.fetchone()
+            x=eval(res[0])
+
             # print(res)
             return HttpResponseRedirect('/team_member/dabba',{"success":"","error":""})
 
@@ -320,3 +339,141 @@ def rating(request):
 def render_dabba(request):
     return redirect('/login_check')
     # return render("team_member.html/dabba.html")
+
+def create_notification(request):
+    # return HttpResponse("123")
+    with connection.cursor() as cursor:
+        try:
+            ssn = request.session['ssn']
+        except:
+            ssn = 1
+            # pass
+        # content = request.POST['content']
+        content = "456465"
+        # to = request.POST['to']
+        to = 25
+
+        # Find sedner team path
+        # sender_team_id = request.POST['sender_team_id']
+        sender_team_id = 1
+        sql = "SELECT team_path from team where t_id = '{}'".format(sender_team_id)
+        # return HttpResponse(sql)
+        cursor.execute(sql)
+        res = eval(cursor.fetchall()[0][0])
+        # return HttpResponse(res[1]) 
+        sender_team_path = res
+        # return HttpResponse(sender_team_path)
+
+        # Find receiver team path
+        # receiver_team_id = request.POST['receiver_team_id']
+        receiver_team_id = 2
+        sql = "SELECT team_path from team where t_id = '{}'".format(receiver_team_id)
+        cursor.execute(sql)
+        res = eval(cursor.fetchall()[0][0])
+        receiver_team_path = res
+        index_r = None
+        index_s = None
+        # return HttpResponse(len(receiver_team_path))
+        for i in sender_team_path:
+            if(i in receiver_team_path):
+                index_r = receiver_team_path.index(i)
+                index_s = sender_team_path.index(i)
+                break
+        # sql = "select * from user where ssn = '1'"
+        # cursor.execute(sql)
+        # res = cursor.fetchall()[0]
+        # return HttpResponse(str(res[1]))
+        # return HttpResponse("{} {}".format(index_r,index_s))
+        if(index_r):
+            sender_team_path = sender_team_path[:(index_s+1)]
+            receiver_team_path = receiver_team_path[:(index_r+1)]
+            dict1 = {ssn:{'1':[sender_team_path[0]],'0':[],'to':to}}
+
+            # return HttpResponse(dict1.items())
+            # Find maaximum notification id
+            sql = "SELECT max(note_id) from notifications"
+            cursor.execute(sql)
+            res = cursor.fetchone()[0]
+            # print(res,type(res))
+            # return HttpResponse(123)
+            note_id = res+1
+            # return HttpResponse(str(note_id))
+            init = time.strftime('%Y-%m-%d %H:%M:%S')
+            sql = "INSERT into notifications(note_id,ssn,initiated_at,content) values ('{}','{}','{}',{})".format(note_id,ssn,init,'"' + str(dict1) + '"')
+            # print(sql)
+            cursor.execute(sql)
+            # res = curso   r.fetchall()
+
+            # Check a tuple exists for the person if not insert or update it
+            sql = "SELECT count(*) from store_notifications where ssn = {}".format(sender_team_path[0])
+            cursor.execute(sql)
+            res = cursor.fetchall()[0]
+            if(res):
+                sql = "SELECT last_updated,note_list from store_notifications where ssn = {}".format(ssn)
+                cursor.execute(sql)
+                res = cursor.fetchall()[0]
+                last_updated = init
+                notify = res[1].insert(0,[to,1,content])
+                sql = "INSERT into store_notifications(ssn,last_updated,note_list) values('{}','{}',{})".format(ssn,last_updated,'"' + str(notify) + '"')
+                cursor.execute(sql)
+            else:
+                sql = "INSERT into store_notifications(ssn,last_updated,note_list) values('{}','{}',{})".format(ssn,init,'NULL')
+                cursor.execute(sql)
+        return redirect('/login_check')
+
+
+def forward_notification(request):
+    pass
+
+
+def display_notification(request):
+    try:
+        ssn = request.session['ssn']
+    except:
+        ssn = 1
+        # pass
+    content = request.POST['content']
+    to = request.POST['to']
+    try:
+        forward = request.POST['formard']
+
+    except:
+        pass
+def render_file_form(request):
+    file=FileUploadForm()
+    return render(request,"file_upload.html",{"form":file})
+
+def simple_upload(request):
+    request.session["ssn"]=1
+    request.session["task_id"]=1
+    request.session["team_id"]=1
+    
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        print(myfile.name)
+        filename=myfile.name
+        file_ext=filename[-4:]
+        if(file_ext==".pdf"):
+            myfile.name="{}_{}_{}.pdf".format(request.session["ssn"],
+            request.session["task_id"],
+            request.session["team_id"])
+            fs = FileSystemStorage()
+            files = [f for f in os.listdir(settings.MEDIA_ROOT) if os.path.isfile(f)]
+            files = filter(lambda f: f.endswith(('.pdf','.PDF')), files)
+            if myfile.name not in files:
+                filename = fs.save(myfile.name, myfile)
+                uploaded_file_url = fs.url(filename)
+                result_url=dict()
+                x=time.strftime("%Y-%m-%d")
+                result_url[x]=uploaded_file_url
+                #print(request.session["ssn"])
+                sql='update tasks set file_path="{0}" where team_id={1} and task_id={2} and ssn= {3}'.format(str(result_url),request.session["team_id"],request.session["task_id"],request.session["ssn"])
+                cursor.execute(sql)
+                conn.commit()
+                return render(request, 'file_upload.html', {
+                'uploaded_file_url': uploaded_file_url
+                })
+            else:
+                return HttpResponse("File Already Uploaded")
+        return HttpResponse("Error")
+    return HttpResponse("Error")

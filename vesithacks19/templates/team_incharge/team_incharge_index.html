@@ -1,4 +1,5 @@
 {% extends 'team_incharge/layout/header.html' %}
+{% load static %}
 {% block team_incharge %}
 {% include 'team_incharge/team_incharge_rating.html'%}
 <div class="content" id="report">
@@ -6,11 +7,12 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Report</h4>
+        <h4 class="card-title float-left">Report</h4>
+        <button class="btn btn-success float-right" onclick="exportToCSV('report.csv')">Generate CSV</button>
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table">
+          <table class="table" id = "table">
             <thead class=" text-primary">
               <th>
                 Name

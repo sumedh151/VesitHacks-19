@@ -13,7 +13,7 @@
                 <a href="#">
                   <img class="avatar border-gray" src="{% static 'assets/img/mike.jpg' %}" alt="...">
                   <!-- <i class="avatar nc-icon nc-circle-10 border-gray"></i> -->
-                  <h5 class="title">{{request.session.name}}</h5>
+                  <h5 class="title">{{request.session.team_incharge_details.details.name}}</h5>
                 </a>
                 <p class="description">
                   {{request.session.email}}

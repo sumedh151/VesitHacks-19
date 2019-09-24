@@ -1,29 +1,52 @@
 {% extends 'team_incharge/layout/dabba_header.html' %}
+{% load static %}
 {% block team_incharge_dabba %}
-<div class="main-panel">
-<div class="content ">
-    {% for i,j in data.items %}
-    <div class="row">  
-    <div class="col-lg-5 col-md-6 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-body text-center">
+<div class="" style="margin-top: 20vh">
+<div class="content container-fluid" style = "margin-right: 0%;">
+    <div class="row"> 
+        {% for i,j in data.items %} 
+    <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+        <div class="card card-user" >
+          <!-- <div class="image">
+              <img src="{% static 'assets/img/damir-bosnjak.jpg' %}" alt="...">
+          </div> -->
+          <!-- <image class="card-image-top" src="{% static 'assets/img/damir-bosnjak.jpg' %}" alt="..."> -->
+            {% if j.role == 1 %}
+            <div class="card-body " style="background: #bae1ff">
             <div class="row">
               <!-- <div class="col-5 col-md-4">
                 <div class="icon-big text-center icon-warning">
                   <i class="nc-icon nc-globe text-warning"></i>
-                </div>
+                </div> 
               </div> -->
-              <div class="col-10 col-md-8">
-                <div class="numbers">
-                    {% if j.role == 1 %}
-                      <p class="card-category"><a href="team_incharge/{{j.team_id}}">{{j.team_name}}</a></p>
+              <!-- <img src="{% static 'assets/img/damir-bosnjak.jpg' %}" alt="..." style = "height:50vh" class="mr-auto"> -->
+
+              <div class="col-10 col-md-8" style = "position: absolute;top: 45%;left: 45%;transform: translate(-50%, -50%);">
+                <!-- <div class="numbers text-center">
+                    
+                </div> -->
+                
+                      <p class="numbers card-category"><a style = "text-decoration: none; color: black; font-weight: 1500;" href="team_incharge/{{j.team_id}}">{{j.team_name}}</a></p>
                       <!-- Role : Team Incharge -->
                     {% else %}
-                    <p class="card-category"><a href="http://127.0.0.1:8000/{{j.team_id}}/team_member/">{{j.team_name}}</a></p>
+                    <div class="card-body " style="background: #ffb3bf">
+                        <div class="row">
+                          <!-- <div class="col-5 col-md-4">
+                            <div class="icon-big text-center icon-warning">
+                              <i class="nc-icon nc-globe text-warning"></i>
+                            </div> 
+                          </div> -->
+                          <!-- <img src="{% static 'assets/img/damir-bosnjak.jpg' %}" alt="..." style = "height:50vh" class="mr-auto"> -->
+            
+                          <div class="col-10 col-md-8" style = "position: absolute;top: 45%;left: 45%;transform: translate(-50%, -50%);">
+                            <!-- <div class="numbers text-center">
+                                
+                            </div> -->
+                        
+                    <p class="numbers card-category"><a style = "text-decoration: none; color: black; font-weight: 1500;" href="{{j.team_id}}/team_member/">{{j.team_name}}</a></p>
                     <!-- <p class="card-category"></p>  
                     Role : Team Member -->
                     {% endif %}
-                </div>
               </div>
             </div>
           </div>
@@ -44,8 +67,9 @@
           <i class="fa fa-refresh"></i>{{request.sessions.roles}} 
         </div>
       </div> -->
-      </div>
       {% endfor %}
+    </div>
+
 </div>
 
 </div>

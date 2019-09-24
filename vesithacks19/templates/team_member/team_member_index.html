@@ -37,7 +37,7 @@
                         <tr>
                           <td>{{j.task_id}}</td>
                           <td>{{y}}</td>
-                          <td><button class="btn btn-primary" onclick = "team_selection()"><i class="nc-icon nc-paper"></i> Submit</button></td>
+                          <td><button class="btn btn-primary" onclick = "team_selection()" data-toggle = "modal" data-target = "#exampleModal"><i class="nc-icon nc-paper"></i> Submit</button></td>
                         </tr>
                       {% endif %}
                       {% endfor %}
@@ -54,4 +54,6 @@
         </div>
       </div>
       {% endif %}
+      
+{% include "team_member/form.html" %}
 {% endblock %}

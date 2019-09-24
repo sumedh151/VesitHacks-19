@@ -15,7 +15,7 @@
   var pluginName = 'starRating';
   var noop = function(){};
   var defaults = {
-    totalStars: 5,
+    totalStars: 10,
     useFullStars: false,
     starShape: 'straight',
     emptyColor: 'lightgray',
@@ -58,7 +58,7 @@
     this._state = {
       rating: newRating
     };
-
+    console.log(this._state[rating]);
     // create unique id for stars
     this._uid = Math.floor( Math.random() * 999 );
 

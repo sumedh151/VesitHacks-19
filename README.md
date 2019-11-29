@@ -1,3 +1,3 @@
-# VesitHacks 19
- henlo deer ;)
-Created for the hackathon : VesitHacks 2019.
+# Rativity
+
+Ranking and deciding hierarchy dynamically for company and organizations
